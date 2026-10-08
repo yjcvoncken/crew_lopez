@@ -36,8 +36,7 @@ def fallback_for(record, field):
         return 'studio/room-' + prefix + '-illustration.png'
 
 
-@admin.register(Photos)
-class PhotosAdmin(admin.ModelAdmin):
+class PhotoGalleryAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
@@ -48,6 +47,8 @@ class PhotosAdmin(admin.ModelAdmin):
         return any(model_admin.has_change_permission(request) for model, model_admin in self.admin_site._registry.items() if model is not Photos and model._meta.app_label == 'studio')
 
     def has_view_permission(self, request, obj=None):
+        if obj is not None:
+            return super().has_view_permission(request, obj)
         return self.has_module_permission(request)
 
     def get_model_perms(self, request):
@@ -89,7 +90,7 @@ class PhotosAdmin(admin.ModelAdmin):
                     if selected and form.is_valid():
                         form.save()
                         messages.success(request, f'{title} updated.')
-                        return redirect(reverse('admin:studio_photos_changelist'))
+                        return redirect(reverse('admin:studio_siteimage_changelist'))
                     page = '/'
                     selector = ''
                     if isinstance(record, Room):
@@ -112,7 +113,7 @@ class PhotosAdmin(admin.ModelAdmin):
                     items.append({'title': title, 'token': token, 'form': form, 'field': form[field], 'page': page, 'selector': selector, 'record_url': reverse(f'admin:studio_{model._meta.model_name}_change', args=[record.pk])})
         if request.method == 'POST' and not any(item['token'] == request.POST.get('photo_target') for item in items):
             raise PermissionDenied
-        context = {**self.admin_site.each_context(request), 'title': 'Photos', 'items': items,
+        context = {**self.admin_site.each_context(request), 'title': 'Site images', 'items': items,
                    'media': CropImageWidget().media, 'opts': self.model._meta}
         # Empty forms have no image widgets; collect media from a real form.
         if items:

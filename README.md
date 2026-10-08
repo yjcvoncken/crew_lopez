@@ -14,7 +14,7 @@ Open http://127.0.0.1:8000 and manage content at http://127.0.0.1:8000/admin/.
 
 In admin:
 
-- **Photos:** one gallery for page images, artwork, room photos and activity
+- **Site images:** one gallery for page images, artwork, room photos and activity
   photos. Each card shows the current picture and updates the original record.
   Drop a replacement or choose a file, drag/zoom the crop, and select Save photo.
   Desktop and Mobile controls measure frames from the live page layouts at
@@ -28,7 +28,7 @@ In admin:
 - **Rooms:** names, descriptions, photos and ordering. All rooms appear on the site.
 - **Activities:** names, descriptions, photos, symbols and ordering. All activities appear on the site.
 - **Blog posts:** archive stories, categories, publication status and ordering.
-- **Site images:** replace the bundled villa photos, room illustrations, activity
+- **Bundled images in the gallery:** replace the bundled villa photos, room illustrations, activity
   fallback photos, logo and decorative artwork. A replacement is shared wherever
   that image appears. Clear the replacement to restore the original.
 

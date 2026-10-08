@@ -3,10 +3,10 @@ from django.templatetags.static import static
 from django.utils.html import format_html
 from .models import SiteSettings, SiteImage, Room, Activity, BlogPost
 from .image_widgets import ImageAdminForm
-from . import photo_gallery
+from .photo_gallery import PhotoGalleryAdmin
 
 @admin.register(SiteImage)
-class SiteImageAdmin(admin.ModelAdmin):
+class SiteImageAdmin(PhotoGalleryAdmin):
     form = ImageAdminForm
     list_display = ['picture', 'name']
     list_display_links = ['picture', 'name']

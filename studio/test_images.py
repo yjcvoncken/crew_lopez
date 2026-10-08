@@ -35,13 +35,13 @@ class ImageEditingTests(TestCase):
         user.user_permissions.add(Permission.objects.get(codename='change_room'))
         self.client.force_login(user)
         room = Room.objects.first()
-        response = self.client.get('/admin/studio/photos/')
+        response = self.client.get('/admin/studio/siteimage/')
         self.assertContains(response, f'Room: {room.name}')
         self.assertNotContains(response, 'Homepage hero')
         output = BytesIO()
         Image.new('RGB', (400, 300), 'blue').save(output, 'PNG')
         with tempfile.TemporaryDirectory() as directory, override_settings(MEDIA_ROOT=directory):
-            response = self.client.post('/admin/studio/photos/', {
+            response = self.client.post('/admin/studio/siteimage/', {
                 'photo_target': f'room-{room.pk}-photo',
                 'photo_crop': json.dumps({'x': 0, 'y': 0, 'w': 1, 'h': 1}),
                 'photo': SimpleUploadedFile('room.png', output.getvalue(), 'image/png'),
@@ -50,7 +50,7 @@ class ImageEditingTests(TestCase):
             room.refresh_from_db()
             self.assertTrue(room.photo)
             self.assertContains(self.client.get('/rooms/'), room.photo.url)
-        self.assertEqual(self.client.post('/admin/studio/photos/', {'photo_target': 'sitesettings-1-homepage_photo'}).status_code, 403)
+        self.assertEqual(self.client.post('/admin/studio/siteimage/', {'photo_target': 'sitesettings-1-homepage_photo'}).status_code, 403)
 
     def test_bundled_image_preview_and_crop_without_upload(self):
         image = SiteImage.objects.get(key='studio/villa-breakfast.png')

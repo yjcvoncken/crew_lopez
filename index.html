@@ -41,17 +41,19 @@ details{border-bottom:1px solid #bac8bc;padding:20px 0}summary{cursor:pointer;fo
 @media(max-width:480px){.activity-card-copy{padding:20px 16px}.activity-card-copy h3{font-size:20px}.activity-card-copy small{right:14px;top:20px}}
 @media(prefers-reduced-motion:reduce){.activity-card .activity-photo{transition:none}}
 
-/* Keep every slogan readable on smaller screens. */
-.ticker b{font-family:Arial,sans-serif;font-variant-emoji:text;flex-shrink:0}
-@media(max-width:800px){
-  .ticker{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;padding:24px 22px;white-space:normal;overflow:visible;text-align:center;align-items:center;justify-content:center}
-  .ticker span{min-width:0;font-size:10px;line-height:1.5;letter-spacing:1px}
-  .ticker span:first-child{grid-column:1 / -1;font-size:13px;letter-spacing:1.6px}
-  .ticker b,.ticker span:last-child{display:none}
-}
-@media(max-width:360px){
-  .ticker{gap:10px;padding:22px 14px}
-  .ticker span{font-size:9px;letter-spacing:.7px}
-  .ticker span:first-child{font-size:12px;letter-spacing:1.2px}
+/* A continuous banner; both groups have identical widths for a seamless loop. */
+.ticker{display:block;overflow:hidden;white-space:nowrap;padding:22px 0;text-align:left}
+.ticker-track{display:flex;width:max-content;animation:crew-banner-scroll 26s linear infinite}
+.ticker-group{display:flex;align-items:center;justify-content:space-around;gap:32px;padding:0 16px;min-width:100vw;box-sizing:border-box;flex-shrink:0}
+.ticker span{flex-shrink:0;font-size:13px;line-height:1.6;letter-spacing:1.2px}
+.ticker-star{display:block;width:20px;height:20px;flex-shrink:0;color:#bd984c}
+.ticker:hover .ticker-track,.ticker:focus .ticker-track{animation-play-state:paused}
+@keyframes crew-banner-scroll{to{transform:translateX(-50%)}}
+@media(max-width:800px){.ticker{padding:20px 0}.ticker-group{gap:26px;padding:0 13px}.ticker span{font-size:12px;letter-spacing:1px}.ticker-star{width:18px;height:18px}}
+@media(prefers-reduced-motion:reduce){
+ .ticker{white-space:normal}
+ .ticker-track{animation:none;width:100%}
+ .ticker-group{min-width:0;width:100%;flex-wrap:wrap;justify-content:center;gap:12px 20px;padding:0 20px}
+ .ticker-group[aria-hidden=true]{display:none}
 }
 </style></head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
