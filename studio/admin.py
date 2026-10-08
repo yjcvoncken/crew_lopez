@@ -1,13 +1,20 @@
 from django.contrib import admin
+from django.templatetags.static import static
+from django.utils.html import format_html
 from .models import SiteSettings, SiteImage, Room, Activity, BlogPost
 from .image_widgets import ImageAdminForm
 
 @admin.register(SiteImage)
 class SiteImageAdmin(admin.ModelAdmin):
     form = ImageAdminForm
-    list_display = ['name', 'image']
+    list_display = ['picture', 'name']
+    list_display_links = ['picture', 'name']
     search_fields = ['name', 'key']
-    readonly_fields = ['key']
+    fields = ['name', 'image']
+    @admin.display(description='Current picture')
+    def picture(self, obj):
+        url = obj.image.url if obj.image else static(obj.key)
+        return format_html('<img src="{}" alt="{}" style="width:140px;height:90px;object-fit:contain;background:#f6f3eb;border-radius:8px">', url, obj.name)
     def has_add_permission(self, request):
         return False
     def has_delete_permission(self, request, obj=None):

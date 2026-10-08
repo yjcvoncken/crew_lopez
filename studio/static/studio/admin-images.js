@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     preview.replaceWith(frame); frame.append(preview);
     function update(commit = true) {
       if (!source) return;
-      const r = Number(ratio.value), z = Number(zoom.value);
       const iw = source.naturalWidth, ih = source.naturalHeight;
+      const r = ratio.value === 'original' ? iw/ih : Number(ratio.value), z = Number(zoom.value);
       let w = Math.min(iw, ih*r)/z, h = w/r;
       const left = (iw-w)*x, top = (ih-h)*y;
       frame.style.aspectRatio = String(r);
@@ -28,13 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function load(url) {
       source = new Image(); source.onload = () => {
-        preview.src = url; x=y=.5; zoom.value=1; data.value=''; update(false);
+        preview.src = url; x=y=.5; zoom.value=1; ratio.value='original'; data.value=''; update(false);
       };
       source.onerror = () => { status.textContent='Preview unavailable. You can still upload a replacement.'; };
       source.src = url;
     }
-    if (file.name === 'homepage_photo') ratio.value='1.7777778';
-    if (file.name === 'graphic_element') ratio.value='1';
     if (editor.dataset.preview) load(editor.dataset.preview);
     file.addEventListener('change', () => {
       if (!file.files[0]) return;
@@ -56,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     frame.addEventListener('pointerup', () => dragging=null);
     frame.addEventListener('pointercancel', () => dragging=null);
     editor.querySelector('.crop-reset').addEventListener('click', () => {
-      x=y=.5; zoom.value=1; update(false); data.value=''; status.textContent='Crop cleared. The full image will be saved.';
+      x=y=.5; zoom.value=1; ratio.value='original'; update(false); data.value=''; status.textContent='Crop cleared. The full image will be saved.';
     });
   });
 });
