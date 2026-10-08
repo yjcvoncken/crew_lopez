@@ -1,4 +1,4 @@
-{% extends 'studio/base.html' %}
+{% extends 'studio/base.html' %}{% load site_images %}
 {% load static %}
 {% block title %}The Rooms - Crew Lopez{% endblock %}
 {% block content %}
@@ -13,9 +13,9 @@
     <article class="stay-card" id="room-{{ forloop.counter }}">
       <div class="stay-image">
         {% if room.photo %}<img src="{{ room.photo.url }}" alt="{{ room.name }}" loading="lazy">
-        {% elif forloop.counter == 1 %}<img src="{% static 'studio/room-twin-illustration.png' %}" alt="Illustration of a coastal twin bedroom" loading="lazy">
-        {% elif forloop.counter == 2 %}<img src="{% static 'studio/room-shared-illustration.png' %}" alt="Illustration of a single bed and a bunk bed" loading="lazy">
-        {% else %}<img src="{% static 'studio/room-dorm-illustration.png' %}" alt="Illustration of a coastal bunk-bed dorm" loading="lazy">{% endif %}
+        {% elif forloop.counter == 1 %}<img src="{% site_image 'studio/room-twin-illustration.png' %}" alt="Illustration of a coastal twin bedroom" loading="lazy">
+        {% elif forloop.counter == 2 %}<img src="{% site_image 'studio/room-shared-illustration.png' %}" alt="Illustration of a single bed and a bunk bed" loading="lazy">
+        {% else %}<img src="{% site_image 'studio/room-dorm-illustration.png' %}" alt="Illustration of a coastal bunk-bed dorm" loading="lazy">{% endif %}
         <span class="stay-number">0{{ forloop.counter }}</span>
       </div>
       <div class="stay-copy">

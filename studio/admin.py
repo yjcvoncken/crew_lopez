@@ -1,8 +1,21 @@
 from django.contrib import admin
-from .models import SiteSettings, Room, Activity, BlogPost
+from .models import SiteSettings, SiteImage, Room, Activity, BlogPost
+from .image_widgets import ImageAdminForm
+
+@admin.register(SiteImage)
+class SiteImageAdmin(admin.ModelAdmin):
+    form = ImageAdminForm
+    list_display = ['name', 'image']
+    search_fields = ['name', 'key']
+    readonly_fields = ['key']
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
+    form = ImageAdminForm
     fieldsets = [('Homepage & assets', {'fields': ('hero_title', 'hero_description', 'homepage_photo', 'graphic_element', 'booking_url')}), ('Business & contact', {'fields': ('business_name', 'registration_number', 'business_address', 'contact_email', 'contact_phone')}), ('Policies', {'fields': ('policies_approved', 'privacy_text', 'cookie_text', 'terms_text')})]
     def has_add_permission(self, request):
         return not SiteSettings.objects.exists()
@@ -11,11 +24,13 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
+    form = ImageAdminForm
     list_display = ['name', 'order']
     list_editable = ['order']
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
+    form = ImageAdminForm
     list_display = ['name', 'order']
     list_editable = ['order']
     prepopulated_fields = {'slug': ['name']}

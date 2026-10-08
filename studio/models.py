@@ -3,6 +3,17 @@ from django.core.validators import FileExtensionValidator
 
 image_validator = FileExtensionValidator(['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'])
 
+class SiteImage(models.Model):
+    name = models.CharField(max_length=150)
+    key = models.CharField(max_length=200, unique=True)
+    image = models.FileField(upload_to='site-images/', blank=True, validators=[image_validator], help_text='Upload a replacement. Leave empty to use the original site image.')
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
 class SiteSettings(models.Model):
     hero_title = models.CharField(max_length=160, default='Your people far from home')
     hero_description = models.TextField(default='Salty hair. Shared stories. A place to belong. Your next chapter starts in Lajares.')
