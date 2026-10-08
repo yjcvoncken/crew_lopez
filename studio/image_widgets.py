@@ -1,12 +1,15 @@
 import json
+import logging
 from io import BytesIO
 
+from botocore.exceptions import BotoCoreError, ClientError
 from django import forms
 from django.core.files.base import ContentFile
 from django.contrib.staticfiles import finders
 from django.templatetags.static import static
 from django.utils.html import format_html
 
+logger = logging.getLogger(__name__)
 
 class CropImageWidget(forms.ClearableFileInput):
     fallback_key = None
@@ -53,6 +56,7 @@ class ImageAdminForm(forms.ModelForm):
             if value is False or not crop:
                 continue
             fallback = False
+            opened = False
             try:
                 if not value and field.widget.fallback_file:
                     value = field.widget.fallback_file
@@ -67,7 +71,9 @@ class ImageAdminForm(forms.ModelForm):
                     continue
                 coords = json.loads(crop)
                 value.open('rb')
-                with Image.open(value) as original:
+                opened = True
+                # Give Pillow its own stream so it cannot close the uploaded file.
+                with Image.open(BytesIO(value.read())) as original:
                     image = ImageOps.exif_transpose(original)
                     width, height = image.size
                     x, y, w, h = [float(coords[key]) for key in ('x', 'y', 'w', 'h')]
@@ -81,11 +87,14 @@ class ImageAdminForm(forms.ModelForm):
                     output = BytesIO()
                     image.save(output, format='PNG')
                 cleaned[name] = ContentFile(output.getvalue(), name=value.name.rsplit('/', 1)[-1].rsplit('.', 1)[0] + '-crop.png')
+            except (BotoCoreError, ClientError):
+                logger.exception('Unable to read photo for cropping: %s', name)
+                self.add_error(name, 'The existing picture could not be read from storage. Upload a replacement or retry once the storage bucket connection is restored.')
             except (ValueError, KeyError, TypeError, OSError, UnidentifiedImageError, Image.DecompressionBombError):
                 self.add_error(name, 'Could not crop this image. Choose a PNG, JPG or WebP photo and try again.')
             finally:
                 if fallback:
                     value.close()
-                elif hasattr(value, 'seek'):
+                elif opened and hasattr(value, 'seek'):
                     value.seek(0)
         return cleaned

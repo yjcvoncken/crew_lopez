@@ -20,6 +20,18 @@ class SiteImageForm(ImageAdminForm):
 
 
 class ImageEditingTests(TestCase):
+    def test_existing_photo_storage_read_failure_is_a_form_error(self):
+        image = SiteImage.objects.get(key='studio/villa-pool.png')
+        image.image = 'site-images/existing.png'
+        form = SiteImageForm({
+            'name': image.name,
+            'image_crop': json.dumps({'x': 0, 'y': 0, 'w': 1, 'h': 1}),
+        }, instance=image)
+        error = ClientError({'Error': {'Code': 'AccessDenied', 'Message': 'Denied'}}, 'GetObject')
+        with patch.object(image.image.storage, 'open', side_effect=error), self.assertLogs('studio.image_widgets', level='ERROR'):
+            self.assertFalse(form.is_valid())
+        self.assertIn('could not be read from storage', str(form.errors))
+
     def test_gallery_storage_failure_keeps_previous_photo_and_shows_error(self):
         from .models import Room
         user = User.objects.create_superuser('storage-editor', password='test')
