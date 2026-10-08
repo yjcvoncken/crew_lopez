@@ -1,7 +1,9 @@
 import json
 import tempfile
 from io import BytesIO
+from unittest.mock import patch
 
+from botocore.exceptions import ClientError
 from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
@@ -18,6 +20,25 @@ class SiteImageForm(ImageAdminForm):
 
 
 class ImageEditingTests(TestCase):
+    def test_gallery_storage_failure_keeps_previous_photo_and_shows_error(self):
+        from .models import Room
+        user = User.objects.create_superuser('storage-editor', password='test')
+        self.client.force_login(user)
+        room = Room.objects.first()
+        room.photo = 'rooms/previous.png'
+        room.save()
+        output = BytesIO()
+        Image.new('RGB', (40, 30), 'blue').save(output, 'PNG')
+        error = ClientError({'Error': {'Code': 'AccessDenied', 'Message': 'Denied'}}, 'PutObject')
+        with patch.object(Room._meta.get_field('photo').storage, 'save', side_effect=error), self.assertLogs('studio.photo_gallery', level='ERROR'):
+            response = self.client.post('/admin/studio/siteimage/', {
+                'photo_target': f'room-{room.pk}-photo',
+                'photo': SimpleUploadedFile('new.png', output.getvalue(), 'image/png'),
+            })
+        self.assertContains(response, 'The picture could not be saved to storage.')
+        room.refresh_from_db()
+        self.assertEqual(room.photo.name, 'rooms/previous.png')
+
     def test_initial_image_import_preserves_replacements(self):
         import importlib
         from django.apps import apps

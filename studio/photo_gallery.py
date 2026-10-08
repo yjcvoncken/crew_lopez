@@ -1,13 +1,18 @@
 """One admin gallery, backed by the original content records."""
+import logging
+
+from botocore.exceptions import BotoCoreError, ClientError
 from django import forms
 from django.contrib import admin, messages
 from django.core.exceptions import PermissionDenied
-from django.db import models
+from django.db import models, transaction
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from .image_widgets import ImageAdminForm, CropImageWidget
 from .models import Photos, SiteImage, SiteSettings, Room, Activity
+
+logger = logging.getLogger(__name__)
 
 
 NAMES = {
@@ -88,9 +93,15 @@ class PhotoGalleryAdmin(admin.ModelAdmin):
                         if fallback and fallback.image and not getattr(record, field):
                             widget.fallback_file = fallback.image
                     if selected and form.is_valid():
-                        form.save()
-                        messages.success(request, f'{title} updated.')
-                        return redirect(reverse('admin:studio_siteimage_changelist'))
+                        try:
+                            with transaction.atomic():
+                                form.save()
+                        except (BotoCoreError, ClientError, OSError):
+                            logger.exception('Unable to save gallery photo %s', token)
+                            form.add_error(field, 'The picture could not be saved to storage. Please select the file again and retry. If this continues, check the storage bucket connection in Railway.')
+                        else:
+                            messages.success(request, f'{title} updated.')
+                            return redirect(reverse('admin:studio_siteimage_changelist'))
                     page = '/'
                     selector = ''
                     if isinstance(record, Room):

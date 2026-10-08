@@ -56,6 +56,8 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
 if os.environ.get("AWS_STORAGE_BUCKET_NAME"):
+    from botocore.config import Config
+
     STORAGES["default"] = {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
@@ -66,6 +68,13 @@ if os.environ.get("AWS_STORAGE_BUCKET_NAME"):
             "region_name": os.environ.get("AWS_S3_REGION_NAME", "auto"),
             "addressing_style": os.environ.get("AWS_S3_ADDRESSING_STYLE", "virtual"),
             "signature_version": "s3v4",
+            # S3-compatible buckets may not support SDK checksum trailers.
+            "client_config": Config(
+                signature_version="s3v4",
+                s3={"addressing_style": os.environ.get("AWS_S3_ADDRESSING_STYLE", "virtual")},
+                request_checksum_calculation="when_required",
+                response_checksum_validation="when_required",
+            ),
             "default_acl": None,
             "querystring_auth": True,
             "file_overwrite": False,
