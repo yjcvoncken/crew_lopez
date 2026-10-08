@@ -57,6 +57,7 @@ class Activity(models.Model):
     photo = models.FileField(upload_to='activities/', blank=True, validators=[image_validator])
     order = models.PositiveIntegerField(default=0)
     class Meta:
+        verbose_name_plural = 'Activities'
         ordering = ['order', 'pk']
     def __str__(self):
         return self.name

@@ -1,6 +1,6 @@
 # Crew Lopez Surfhouse
 
-The Django website has four main menu items: Home, Activities, Villa (house and rooms), and About. Booking opens the configured external listing. Contact, the blog archive and policies live in the footer.
+The Django website has four main menu items: Home, Activities, Villa (house and rooms), and About. Booking opens the configured external listing. Contact and policies live in the footer.
 
 ## Run the editable site
 
@@ -27,7 +27,6 @@ In admin:
 - **Site settings:** homepage title, description and photo; brand illustration; booking link; business and contact details; editable policies and owner approval status.
 - **Rooms:** names, descriptions, photos and ordering. All rooms appear on the site.
 - **Activities:** names, descriptions, photos, symbols and ordering. All activities appear on the site.
-- **Blog posts:** archive stories, categories, publication status and ordering.
 - **Bundled images in the gallery:** replace the bundled villa photos, room illustrations, activity
   fallback photos, logo and decorative artwork. A replacement is shared wherever
   that image appears. Clear the replacement to restore the original.

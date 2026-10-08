@@ -9,7 +9,6 @@ urlpatterns = [
     path("activities/", views.detail, {"slug":"activities"}, name="activities"),
     path("about/", views.detail, {"slug":"story"}, name="story"),
     path("our-story/", views.detail, {"slug":"story"}),
-    path("blog/", views.detail, {"slug":"blog"}, name="blog"),
     path("contact/", views.contact, name="contact"),
     path("cookie-policy/", views.policy, {"kind":"cookie"}, name="cookie-policy"),
     path("privacy-policy/", views.policy, {"kind":"privacy"}, name="privacy-policy"),

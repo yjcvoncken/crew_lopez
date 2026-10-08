@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.templatetags.static import static
 from django.utils.html import format_html
-from .models import SiteSettings, SiteImage, Room, Activity, BlogPost
+from .models import SiteSettings, SiteImage, Room, Activity
 from .image_widgets import ImageAdminForm
 from .photo_gallery import PhotoGalleryAdmin
 
@@ -42,12 +42,6 @@ class ActivityAdmin(admin.ModelAdmin):
     list_display = ['name', 'order']
     list_editable = ['order']
     prepopulated_fields = {'slug': ['name']}
-
-@admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'published', 'order']
-    list_editable = ['published', 'order']
-    search_fields = ['title', 'body']
 
 admin.site.site_header = 'Crew Lopez - Website admin'
 admin.site.site_title = 'Crew Lopez'

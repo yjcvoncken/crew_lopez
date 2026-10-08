@@ -56,3 +56,26 @@ details{border-bottom:1px solid #bac8bc;padding:20px 0}summary{cursor:pointer;fo
  .ticker-group{min-width:0;width:100%;flex-wrap:wrap;justify-content:center;gap:12px 20px;padding:0 20px}
  .ticker-group[aria-hidden=true]{display:none}
 }
+
+/* On phones, show one complete slogan at a time. */
+.ticker-mobile{display:none}
+@media(max-width:800px){
+ .ticker>.ticker-track{display:none}
+ .ticker-mobile{display:block;overflow:hidden;width:100%}
+ .ticker-mobile-track{display:flex;width:400%;animation:crew-mobile-carousel 15s infinite}
+ .ticker-slide{width:25%;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:18px;padding:0 16px;min-height:24px}
+ .ticker-slide span{white-space:nowrap;font-size:12px;letter-spacing:1px}
+ .ticker-mobile .ticker-star{width:16px;height:16px}
+ .ticker:hover .ticker-mobile-track,.ticker:focus .ticker-mobile-track{animation-play-state:paused}
+}
+@keyframes crew-mobile-carousel{
+ 0%,24%{transform:translateX(0)}
+ 30%,57%{transform:translateX(-25%)}
+ 63%,90%{transform:translateX(-50%)}
+ 96%,100%{transform:translateX(-75%)}
+}
+@media(prefers-reduced-motion:reduce){
+ .ticker-mobile-track{animation:none;width:100%;flex-direction:column;gap:12px}
+ .ticker-slide{width:100%}
+ .ticker-slide[aria-hidden=true]{display:none}
+}
