@@ -21,7 +21,7 @@ window.initCrewSite = function () {
   const loadMap=()=>{
     if(!map || !map.dataset.embedUrl || map.querySelector('iframe'))return;
     const iframe=document.createElement('iframe');
-    iframe.title='Crew Lopez Surfhouse in Lajares — interactive Google map';
+    iframe.title='Crew Lopez Surfhouse in Lajares - interactive Google map';
     iframe.src=map.dataset.embedUrl;
     iframe.referrerPolicy='strict-origin-when-cross-origin';
     iframe.allowFullscreen=true;

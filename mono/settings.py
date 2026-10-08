@@ -64,7 +64,7 @@ if os.environ.get("AWS_STORAGE_BUCKET_NAME"):
             "secret_key": os.environ["AWS_SECRET_ACCESS_KEY"],
             "endpoint_url": os.environ["AWS_S3_ENDPOINT_URL"],
             "region_name": os.environ.get("AWS_S3_REGION_NAME", "auto"),
-            "addressing_style": "path",
+            "addressing_style": os.environ.get("AWS_S3_ADDRESSING_STYLE", "virtual"),
             "signature_version": "s3v4",
             "default_acl": None,
             "querystring_auth": True,

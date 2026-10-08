@@ -4,7 +4,7 @@ from django.core.validators import FileExtensionValidator
 image_validator = FileExtensionValidator(['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'])
 
 class SiteSettings(models.Model):
-    hero_title = models.CharField(max_length=160, default='Come for the waves. Stay for the people.')
+    hero_title = models.CharField(max_length=160, default='Your people far from home')
     hero_description = models.TextField(default='Salty hair. Shared stories. A place to belong. Your next chapter starts in Lajares.')
     homepage_photo = models.FileField(upload_to='site/', blank=True, validators=[image_validator])
     graphic_element = models.FileField(upload_to='site/', blank=True, validators=[image_validator], help_text='Upload a brand illustration from the supplied graphics. It appears beside the welcome text.')

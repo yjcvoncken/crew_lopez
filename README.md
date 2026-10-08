@@ -42,6 +42,7 @@ remove any Railway build/start override that runs Vite or `npm run preview`.
    | `AWS_SECRET_ACCESS_KEY` | Bucket secret key |
    | `AWS_S3_ENDPOINT_URL` | Bucket HTTPS endpoint |
    | `AWS_S3_REGION_NAME` | Region shown in the bucket credentials (default: `auto`) |
+   | `AWS_S3_ADDRESSING_STYLE` | `virtual` (default); use `path` only if the bucket Credentials tab specifies path-style URLs |
 
    Generate a secret locally: `.venv/bin/python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`.
    Keep credentials in Railway Variables, never in Git or chat.

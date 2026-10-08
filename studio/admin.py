@@ -26,5 +26,5 @@ class BlogPostAdmin(admin.ModelAdmin):
     list_editable = ['published', 'order']
     search_fields = ['title', 'body']
 
-admin.site.site_header = 'Crew Lopez — Website admin'
+admin.site.site_header = 'Crew Lopez - Website admin'
 admin.site.site_title = 'Crew Lopez'
