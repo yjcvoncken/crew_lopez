@@ -23,6 +23,48 @@ Owner-provided content is recorded in migration 0003: three rooms (up to 11 gues
 
 Uploaded files are served locally during development. Production hosting must serve `/media/` from persistent storage and `/static/` from the collected static files.
 
+## Deploy the live site on Railway
+
+The Dockerfile runs Django with Gunicorn, collects CSS/images for WhiteNoise,
+and applies database migrations at startup. Deploy this repository's root;
+remove any Railway build/start override that runs Vite or `npm run preview`.
+
+1. Add a **PostgreSQL** service and a **Storage Bucket** to your Railway project.
+2. In the website service's Variables, set:
+
+   | Variable | Value |
+   | --- | --- |
+   | `DJANGO_DEBUG` | `false` |
+   | `DJANGO_SECRET_KEY` | A random secret, generated with the command below |
+   | `DATABASE_URL` | Reference the Postgres service's `DATABASE_URL` using Railway's variable picker |
+   | `AWS_STORAGE_BUCKET_NAME` | Bucket name from the bucket credentials |
+   | `AWS_ACCESS_KEY_ID` | Bucket access key |
+   | `AWS_SECRET_ACCESS_KEY` | Bucket secret key |
+   | `AWS_S3_ENDPOINT_URL` | Bucket HTTPS endpoint |
+   | `AWS_S3_REGION_NAME` | Region shown in the bucket credentials (default: `auto`) |
+
+   Generate a secret locally: `.venv/bin/python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`.
+   Keep credentials in Railway Variables, never in Git or chat.
+3. Under the website service's Settings → Networking, generate a public domain.
+   Railway's `RAILWAY_PUBLIC_DOMAIN` is allowed automatically. For a custom domain,
+   add `DJANGO_ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com` and
+   `DJANGO_CSRF_TRUSTED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com`.
+4. Push these changes and deploy. Logs should show successful migrations and
+   Gunicorn listening on Railway's port.
+5. In Railway's SSH shell for the running website service, run
+   `python manage.py createsuperuser`, then sign in at `https://YOUR-DOMAIN/admin/`.
+6. Upload a photo in Site settings or Rooms. Check the homepage, Villa,
+   Activities, admin styles and photo. Redeploy and confirm the uploaded photo
+   and edited text still appear. This checks persistence in both services.
+
+Postgres stores content and photo filenames; the bucket stores the actual files.
+Private bucket photos load through signed URLs generated when Django renders a
+page. Existing bundled photos stay in the app's collected static assets.
+The initial migrations seed starter content, but they do **not** transfer later
+edits from your local SQLite database or existing local uploads. Re-enter those
+through admin, or export/import them separately before switching to production.
+Configure database backups in Railway and keep separate backups of uploaded photos.
+
 ## Standalone frontend preview
 
 ```bash
