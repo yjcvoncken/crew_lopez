@@ -1,0 +1,43 @@
+{% extends 'studio/base.html' %}
+{% load static %}
+{% block title %}The Rooms — Crew Lopez{% endblock %}
+{% block content %}
+<section class="section rooms-intro">
+  <p class="eyebrow">YOUR PLACE IN THE HOUSE</p>
+  <h1>Rest easy.<br>Stay <em>connected.</em></h1>
+  <p>Come solo or bring someone along. Three rooms, a slower island rhythm, and a crew to share it with.</p>
+</section>
+<section class="section rooms-collection">
+  <div class="room-grid stay-grid">
+    {% for room in rooms %}
+    <article class="stay-card" id="room-{{ forloop.counter }}">
+      <div class="stay-image">
+        {% if room.photo %}<img src="{{ room.photo.url }}" alt="{{ room.name }}" loading="lazy">
+        {% elif forloop.counter == 1 %}<img src="{% static 'studio/room-twin-illustration.png' %}" alt="Illustration of a coastal twin bedroom" loading="lazy">
+        {% elif forloop.counter == 2 %}<img src="{% static 'studio/room-shared-illustration.png' %}" alt="Illustration of a single bed and a bunk bed" loading="lazy">
+        {% else %}<img src="{% static 'studio/room-dorm-illustration.png' %}" alt="Illustration of a coastal bunk-bed dorm" loading="lazy">{% endif %}
+        <span class="stay-number">0{{ forloop.counter }}</span>
+      </div>
+      <div class="stay-copy">
+        <p class="eyebrow">{% if forloop.counter == 1 %}PRIVATE OR SHARED · UP TO 2{% elif forloop.counter == 2 %}SHARED · UP TO 3{% else %}SHARED · UP TO 6{% endif %}</p>
+        <h2>{{ room.name }}</h2>
+        <p>{{ room.description }}</p>
+        <a class="button" href="{{ site.booking_url }}" target="_blank" rel="noopener">Check availability <span>↗</span></a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  <p class="rooms-image-note">Room illustrations set the mood. Check your chosen accommodation on Booking.com for current photos and details.</p>
+</section>
+<section class="section stay-included">
+  <div><p class="eyebrow">MORE THAN A PLACE TO SLEEP</p><h2>A good start.<br>Every <em>day.</em></h2><p>A few simple things to help you settle into life with the crew.</p></div>
+  <div class="stay-perks">
+    <article><span aria-hidden="true">☼</span><h3>Breakfast</h3><p>Included in your stay.</p></article>
+    <article><span aria-hidden="true">〰</span><h3>Yoga</h3><p>Time to stretch and reset.</p></article>
+    <article><span aria-hidden="true">✳</span><h3>Community</h3><p>Good company, shared days.</p></article>
+    <article><span aria-hidden="true">↝</span><h3>Bikes</h3><p>Available for you to use.</p></article>
+    <p class="stay-dinner">Dinner is an optional paid extra. Ask the crew about prices and availability.</p>
+  </div>
+</section>
+<section class="final-cta"><p class="eyebrow">A GOOD NIGHT. A NEW ADVENTURE.</p><h2>Wake up with<br>the <em>crew.</em></h2><a class="button yellow" href="{{ site.booking_url }}" target="_blank" rel="noopener">Find your stay ↗</a></section>
+{% endblock %}
