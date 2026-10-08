@@ -35,6 +35,19 @@ TEMPLATES = [{
     ]},
 }]
 WSGI_APPLICATION = "mono.wsgi.application"
+# Railway captures stderr. Django's default production handler only emails
+# request errors, so explicitly include tracebacks in deployment logs.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+    },
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "ERROR", "propagate": False},
+        "studio": {"handlers": ["console"], "level": "ERROR", "propagate": False},
+    },
+}
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
 if os.environ.get("DATABASE_URL"):
     DATABASES["default"] = dj_database_url.parse(os.environ["DATABASE_URL"], conn_max_age=60, conn_health_checks=True)
