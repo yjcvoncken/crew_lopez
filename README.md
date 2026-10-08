@@ -14,6 +14,16 @@ Open http://127.0.0.1:8000 and manage content at http://127.0.0.1:8000/admin/.
 
 In admin:
 
+- **Photos:** one gallery for page images, artwork, room photos and activity
+  photos. Each card shows the current picture and updates the original record.
+  Drop a replacement or choose a file, drag/zoom the crop, and select Save photo.
+  Desktop and Mobile controls measure frames from the live page layouts at
+  1440px and 390px. Shared images use the first matching location on their page;
+  other responsive sizes keep the site's existing CSS layout and object-fit.
+  The gallery respects each original model's change permissions. Registered
+  content models with file fields are included automatically. This project has
+  no team-member model or article image fields yet.
+
 - **Site settings:** homepage title, description and photo; brand illustration; booking link; business and contact details; editable policies and owner approval status.
 - **Rooms:** names, descriptions, photos and ordering. All rooms appear on the site.
 - **Activities:** names, descriptions, photos, symbols and ordering. All activities appear on the site.

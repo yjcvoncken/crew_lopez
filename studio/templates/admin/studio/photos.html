@@ -1,0 +1,18 @@
+{% extends "admin/base_site.html" %}{% load static %}
+{% block extrahead %}{{ block.super }}{{ media }}{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" href="{% static 'studio/photos-gallery.css' %}">{% endblock %}
+{% block content %}
+<p class="gallery-intro">All website pictures in one place. Drop a replacement into a card, drag to frame it, then confirm with Save photo. Each card updates its original content record.</p>
+<div class="photo-viewports"><span>Match website frame:</span> <button type="button" data-photo-width="1440" aria-pressed="true">Desktop</button> <button type="button" data-photo-width="390" aria-pressed="false">Mobile</button><p>The frame follows the selected screen size. Images shared across pages use the first matching location; the website keeps its responsive layout.</p></div>
+<div class="photos-gallery">
+{% for item in items %}
+<form method="post" enctype="multipart/form-data" class="photo-card-admin" data-photo-page="{{ item.page }}" data-photo-selector="{{ item.selector }}">
+{% csrf_token %}<input type="hidden" name="photo_target" value="{{ item.token }}">
+<h2>{{ item.title }}</h2>
+{{ item.form.non_field_errors }}{{ item.field.errors }}{{ item.field }}
+<div class="photo-actions"><input type="submit" value="Save photo" class="default"><a href="{{ item.record_url }}">Open content</a></div>
+</form>
+{% empty %}<p>You do not have permission to edit any photos.</p>{% endfor %}
+</div>
+<script src="{% static 'studio/photos-gallery.js' %}" defer></script>
+{% endblock %}

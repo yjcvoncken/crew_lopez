@@ -14,6 +14,12 @@ class SiteImage(models.Model):
     def __str__(self):
         return self.name
 
+class Photos(SiteImage):
+    class Meta:
+        proxy = True
+        verbose_name_plural = 'Photos'
+
+
 class SiteSettings(models.Model):
     hero_title = models.CharField(max_length=160, default='Your people far from home')
     hero_description = models.TextField(default='Salty hair. Shared stories. A place to belong. Your next chapter starts in Lajares.')

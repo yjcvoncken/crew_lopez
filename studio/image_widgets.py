@@ -10,15 +10,17 @@ from django.utils.html import format_html
 
 class CropImageWidget(forms.ClearableFileInput):
     fallback_key = None
+    fallback_file = None
+    fixed_ratio = None
     class Media:
         js = ('studio/admin-images.js',)
         css = {'all': ('studio/admin-images.css',)}
 
     def render(self, name, value, attrs=None, renderer=None):
         field = super().render(name, value, attrs, renderer)
-        url = value.url if value and hasattr(value, 'url') else (static(self.fallback_key) if self.fallback_key else '')
+        url = value.url if value and hasattr(value, 'url') else (self.fallback_file.url if self.fallback_file else static(self.fallback_key) if self.fallback_key else '')
         return format_html(
-            '<div class="image-editor" data-preview="{}">{}'
+            '<div class="image-editor" data-preview="{}" data-fixed-ratio="{}">{}'
             '<input type="hidden" name="{}_crop" class="crop-data">'
             '<div class="crop-controls"><p>Drag the existing picture to crop it, or choose a file to replace it. Zoom to cut tighter. '
             'The frame stays the same size on the website. Cropping is applied when you save.</p>'
@@ -28,7 +30,7 @@ class CropImageWidget(forms.ClearableFileInput):
             '<option value="1.7777778">Wide (16:9)</option><option value="1">Square</option>'
             '<option value="0.75">Portrait (3:4)</option></select></label>'
             '<button type="button" class="crop-reset">Reset crop</button>'
-            '<p class="crop-status" aria-live="polite"></p></div></div>', url, field, name)
+            '<p class="crop-status" aria-live="polite"></p></div></div>', url, self.fixed_ratio or '', field, name)
 
 
 class ImageAdminForm(forms.ModelForm):
@@ -52,6 +54,8 @@ class ImageAdminForm(forms.ModelForm):
                 continue
             fallback = False
             try:
+                if not value and field.widget.fallback_file:
+                    value = field.widget.fallback_file
                 if not value and field.widget.fallback_key:
                     path = finders.find(field.widget.fallback_key)
                     if not path:
@@ -69,7 +73,10 @@ class ImageAdminForm(forms.ModelForm):
                     x, y, w, h = [float(coords[key]) for key in ('x', 'y', 'w', 'h')]
                     if not (0 <= x < 1 and 0 <= y < 1 and w > 0 and h > 0 and x+w <= 1.001 and y+h <= 1.001):
                         raise ValueError('Invalid crop')
-                    image = image.crop((round(x*width), round(y*height), round((x+w)*width), round((y+h)*height)))
+                    box = (round(x*width), round(y*height), round((x+w)*width), round((y+h)*height))
+                    if box[2] <= box[0] or box[3] <= box[1]:
+                        raise ValueError('Crop is too small')
+                    image = image.crop(box)
                     image.thumbnail((2400, 2400))
                     output = BytesIO()
                     image.save(output, format='PNG')
