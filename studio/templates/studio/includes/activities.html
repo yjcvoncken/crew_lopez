@@ -14,8 +14,10 @@
     <small>0{{ forloop.counter }}</small>
     <h3>{{ activity.name }}</h3>
     <p>{{ activity.short }}</p>
-    {% if activity.display_price %}<p class="item-price">{{ activity.display_price }}</p>{% endif %}
-    <span class="activity-arrow">↗</span>
+    <div class="activity-card-actions">
+      {% if activity.display_price %}<p class="item-price">{{ activity.display_price }}</p>{% endif %}
+      <span class="activity-arrow" aria-hidden="true">↗</span>
+    </div>
   </div>
 </a>
 {% endfor %}
