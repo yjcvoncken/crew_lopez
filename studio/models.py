@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.core.validators import FileExtensionValidator
 
@@ -64,6 +66,13 @@ class Activity(models.Model):
         ordering = ['order', 'pk']
     def __str__(self):
         return self.name
+
+    @property
+    def display_price(self):
+        price = self.price.strip()
+        if '€' in price:
+            return price
+        return re.sub(r'\d', lambda match: '€' + match.group(), price, count=1)
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=180)

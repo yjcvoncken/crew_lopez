@@ -4,6 +4,18 @@ from .models import Activity, Room, RoomPhoto, SiteSettings, VillaPhoto
 
 
 class CarouselTests(TestCase):
+    def test_activity_prices_add_euros_and_render_over_photo(self):
+        for entered, expected in [('60', '€60'), ('From 45 per session', 'From €45 per session'),
+                                  ('€60 per session', '€60 per session'), ('Included', 'Included'),
+                                  ('', ''), (' 25,50 ', '€25,50')]:
+            with self.subTest(price=entered):
+                self.assertEqual(Activity(price=entered).display_price, expected)
+        activity = Activity.objects.first()
+        activity.price = '60 per session'
+        activity.save()
+        for page in ['/', '/activities/']:
+            self.assertContains(self.client.get(page), '<span class="activity-price">€60 per session</span>', html=True)
+
     def test_villa_photo_order_and_autoplay_setting(self):
         VillaPhoto.objects.create(image='villa/second.png', order=2)
         VillaPhoto.objects.create(image='villa/first.png', order=1, caption='Garden')
