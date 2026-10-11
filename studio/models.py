@@ -5,6 +5,12 @@ from django.core.validators import FileExtensionValidator
 
 image_validator = FileExtensionValidator(['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'])
 
+def euro_price(value):
+    price = value.strip()
+    if '€' in price:
+        return price
+    return re.sub(r'\d', lambda match: '€' + match.group(), price, count=1)
+
 class SiteImage(models.Model):
     name = models.CharField(max_length=150)
     key = models.CharField(max_length=200, unique=True)
@@ -52,6 +58,10 @@ class Room(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def display_price(self):
+        return euro_price(self.price)
+
 class Activity(models.Model):
     price = models.CharField(max_length=120, blank=True, help_text='For example: €60 per session, or Included. Leave blank to hide.')
     name = models.CharField(max_length=100)
@@ -69,10 +79,7 @@ class Activity(models.Model):
 
     @property
     def display_price(self):
-        price = self.price.strip()
-        if '€' in price:
-            return price
-        return re.sub(r'\d', lambda match: '€' + match.group(), price, count=1)
+        return euro_price(self.price)
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=180)

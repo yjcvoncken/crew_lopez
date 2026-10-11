@@ -24,7 +24,7 @@
         <p class="eyebrow">{% if forloop.counter == 1 %}PRIVATE OR SHARED · UP TO 2{% elif forloop.counter == 2 %}SHARED · UP TO 3{% else %}SHARED · UP TO 6{% endif %}</p>
         <h2>{{ room.name }}</h2>
         <p>{{ room.description }}</p>
-        {% if room.price %}<p class="item-price">{{ room.price }}</p>{% endif %}
+        {% if room.display_price %}<p class="item-price">{{ room.display_price }}</p>{% endif %}
         <a class="button" href="{{ site.booking_url }}" target="_blank" rel="noopener">Check availability <span>↗</span></a>
       </div>
     </article>
