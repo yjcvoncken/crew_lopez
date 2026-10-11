@@ -18,25 +18,44 @@ window.initCrewSite = function () {
     const slides = [...carousel.querySelectorAll('[data-slide]')];
     const controls = carousel.querySelector('.carousel-controls');
     if (slides.length < 2) return;
-    controls.hidden = false;
-    let index = 0, timer, hovering = false, focused = false;
+    controls.hidden = carousel.dataset.hideControls === 'true';
+    let index = 0, timer, hovering = false, focused = false, requestVersion = 0;
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let paused = motion.matches;
     const autoplay = carousel.dataset.autoplay === 'true';
     const pause = carousel.querySelector('[data-carousel-pause]');
     const status = carousel.querySelector('[data-carousel-status]');
-    pause.hidden = !autoplay;
-    const show = (next, announce = true) => {
-      index = (next + slides.length) % slides.length;
+    status.hidden = carousel.dataset.sideControls === 'true';
+    pause.hidden = !autoplay || carousel.dataset.sideControls === 'true';
+    const prepared = new Map();
+    const prepare = i => {
+      const slide = slides[(i + slides.length) % slides.length];
+      if (!prepared.has(slide)) {
+        // Hidden lazy images otherwise start loading only after they appear.
+        slide.loading = 'eager';
+        prepared.set(slide, slide.decode().then(() => true, () => false));
+      }
+      return prepared.get(slide);
+    };
+    if (autoplay) slides.forEach((_, i) => prepare(i));
+    const show = async (next, announce = true) => {
+      const target = (next + slides.length) % slides.length;
+      const version = ++requestVersion;
+      // Keep the current photo visible until the replacement is decoded.
+      if (target !== index && !await prepare(target)) return;
+      if (version !== requestVersion || controller.signal.aborted) return;
+      index = target;
       slides.forEach((slide, i) => {slide.hidden = i !== index;});
       status.setAttribute('aria-live', announce ? 'polite' : 'off');
       status.textContent = `${index + 1} / ${slides.length}`;
+      prepare(index + 1);
+      prepare(index - 1);
     };
     const schedule = () => {
       clearInterval(timer);
       pause.textContent = paused ? 'Play slideshow' : 'Pause slideshow';
       if (autoplay && !paused && !hovering && !focused && !document.hidden) {
-        timer = setInterval(() => show(index + 1, false), 5000);
+        timer = setInterval(() => show(index + 1, false), 4000);
       }
     };
     const move = direction => {show(index + direction); schedule();};

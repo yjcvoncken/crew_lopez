@@ -25,7 +25,7 @@ In admin:
   no team-member model or article image fields yet.
 
 - **Site settings:** homepage title, description and photo; brand illustration; booking link; business and contact details; editable policies and owner approval status.
-- **Villa photos:** add, replace or delete photos for the first image carousel on Explore the Villa. Set Order to arrange slides (lower numbers first). With no photos, the existing villa image remains. Toggle Villa carousel autoplay in Site settings; visitors can pause playback.
+- **Villa photos:** add, replace or delete photos for the first image carousel on Explore the Villa. Set Order to arrange slides (lower numbers first). With no photos, the existing villa image remains. Toggle Villa carousel autoplay in Site settings. Slides advance every four seconds, with previous/next arrows at the sides of the picture; playback pauses on hover or keyboard focus and respects reduced-motion preferences.
 - **Rooms:** edit names, descriptions, prices and the main photo. Add additional carousel photos in the Room photos section of each room, with captions and ordering. The main photo appears first. Room carousels use arrows and never autoplay. All rooms appear on the site.
 - **Activities:** names, descriptions, prices, photos, symbols and ordering. All activities appear on the site.
 - **Prices:** enter display text such as “From €45 per person / night”, “€60 per session” or “Included”. Leave blank to hide. Prices appear on the homepage and their room/activity pages.

@@ -104,3 +104,8 @@ details{border-bottom:1px solid #bac8bc;padding:20px 0}summary{cursor:pointer;fo
 .activity-card-actions .item-price{min-height:0;margin:0;color:var(--blue);font-weight:700;line-height:1.4}
 .activity-card-actions .activity-arrow{padding:0;margin:0 0 0 auto;flex-shrink:0}
 @media(max-width:480px){.activity-card-copy{padding:18px 16px}.activity-card-actions{gap:8px;padding-top:12px}}
+
+.villa-carousel .carousel-controls{inset:0;pointer-events:none;justify-content:space-between;padding:0 16px}
+.villa-carousel .carousel-controls button{pointer-events:auto;border-radius:50%;width:44px;height:44px;font-size:20px;box-shadow:0 2px 12px #0003}
+.villa-carousel .carousel-controls [hidden]{display:none!important}
+@media(max-width:480px){.villa-carousel .carousel-controls{padding:0 10px}}
