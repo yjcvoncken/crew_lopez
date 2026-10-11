@@ -4,17 +4,24 @@ from .models import Activity, Room, RoomPhoto, SiteSettings, VillaPhoto
 
 
 class CarouselTests(TestCase):
+    def test_room_price_wording_is_added_without_duplicates(self):
+        for entered, expected in [('45', 'From €45 per person'),
+                                  ('From €45 per person / night', 'From €45 per person'),
+                                  ('25,50', 'From €25,50 per person'), ('', ''), ('Included', 'Included')]:
+            with self.subTest(price=entered):
+                self.assertEqual(Room(price=entered).display_price, expected)
+
     def test_activity_prices_add_euros_and_render_over_photo(self):
-        for entered, expected in [('60', '€60'), ('From 45 per session', 'From €45 per session'),
-                                  ('€60 per session', '€60 per session'), ('Included', 'Included'),
-                                  ('', ''), (' 25,50 ', '€25,50')]:
+        for entered, expected in [('60', 'From €60'), ('From 45 per session', 'From €45'),
+                                  ('€60 per session', 'From €60'), ('Included', 'Included'),
+                                  ('', ''), (' 25,50 ', 'From €25,50')]:
             with self.subTest(price=entered):
                 self.assertEqual(Activity(price=entered).display_price, expected)
         activity = Activity.objects.first()
         activity.price = '60 per session'
         activity.save()
         for page in ['/', '/activities/']:
-            self.assertContains(self.client.get(page), '<span class="activity-price">€60 per session</span>', html=True)
+            self.assertContains(self.client.get(page), '<span class="activity-price">From €60</span>', html=True)
 
     def test_villa_photo_order_and_autoplay_setting(self):
         VillaPhoto.objects.create(image='villa/second.png', order=2)
@@ -40,15 +47,15 @@ class CarouselTests(TestCase):
         self.assertContains(response, 'rooms/main.png')
         self.assertContains(response, 'rooms/extra.png')
         self.assertContains(response, 'Room terrace')
-        self.assertContains(response, room.price)
+        self.assertContains(response, room.display_price)
         self.assertContains(response, 'aria-label="Next photo"')
         activity = Activity.objects.first()
         activity.price = '€60 per session'
         activity.save()
-        self.assertContains(self.client.get('/activities/'), activity.price)
+        self.assertContains(self.client.get('/activities/'), activity.display_price)
         home = self.client.get('/')
-        self.assertContains(home, room.price)
-        self.assertContains(home, activity.price)
+        self.assertContains(home, room.display_price)
+        self.assertContains(home, activity.display_price)
 
     def test_admin_exposes_gallery_and_prices(self):
         self.client.force_login(User.objects.create_superuser('owner', password='test'))
