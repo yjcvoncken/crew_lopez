@@ -13,10 +13,13 @@ django.setup()
 from django.test import Client
 client = Client(HTTP_HOST='localhost')
 pages = {}
+favicon = ""
 for route in ['/', '/villa/', '/explore-villa/', '/rooms/', '/activities/', '/about/', '/our-story/', '/contact/', '/cookie-policy/', '/privacy-policy/', '/terms-and-conditions/']:
     response = client.get(route)
     assert response.status_code == 200, (route, response.status_code)
     html = response.content.decode()
+    if route == "/":
+        favicon = re.search(r'<link rel="icon"[^>]*>', html).group(0)
     body = re.search(r'<body>(.*)</body>', html, re.S).group(1)
     body = re.sub(r'<script.*?</script>', '', body, flags=re.S)
     body = re.sub(r'<input[^>]*name="csrfmiddlewaretoken"[^>]*>', '', body)
@@ -33,6 +36,8 @@ shutil.copytree(ROOT / 'studio/static/studio/activities', assets / 'activities',
 # The standalone preview gets the same self-contained stylesheet as Django.
 index = ROOT / 'index.html'
 html = index.read_text()
+html = re.sub(r'<link rel="icon"[^>]*>', "", html)
+html = html.replace("</head>", favicon + "</head>")
 css = (ROOT / 'studio/static/studio/styles.css').read_text().replace('</style', '<\\/style')
 style = '<style id="crew-site-styles">' + css + '</style>'
 if re.search(r'<style id="crew-site-styles">.*?</style>', html, re.S):
