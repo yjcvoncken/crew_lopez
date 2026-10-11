@@ -11,7 +11,7 @@ class CarouselTests(TestCase):
             with self.subTest(price=entered):
                 self.assertEqual(Room(price=entered).display_price, expected)
 
-    def test_activity_prices_add_euros_and_render_over_photo(self):
+    def test_activity_prices_add_euros_and_render_below_description(self):
         for entered, expected in [('60', 'From €60'), ('From 45 per session', 'From €45'),
                                   ('€60 per session', 'From €60'), ('Included', 'Included'),
                                   ('', ''), (' 25,50 ', 'From €25,50')]:
@@ -21,7 +21,7 @@ class CarouselTests(TestCase):
         activity.price = '60 per session'
         activity.save()
         for page in ['/', '/activities/']:
-            self.assertContains(self.client.get(page), '<span class="activity-price">From €60</span>', html=True)
+            self.assertContains(self.client.get(page), '<p class="item-price">From €60</p>', html=True)
 
     def test_villa_photo_order_and_autoplay_setting(self):
         VillaPhoto.objects.create(image='villa/second.png', order=2)

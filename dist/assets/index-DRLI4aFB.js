@@ -37,13 +37,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/surf.jpg" alt="Surf activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">≈</span>
     <small>01</small>
     <h3>Surf</h3>
     <p>Find your wave.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -53,13 +53,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/hikes.jpg" alt="Hikes activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">⌁</span>
     <small>02</small>
     <h3>Hikes</h3>
     <p>Explore on foot.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -69,13 +69,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/snorkeling.jpg" alt="Snorkeling activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">◌</span>
     <small>03</small>
     <h3>Snorkeling</h3>
     <p>A different kind of blue.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -85,13 +85,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/stargazing.jpg" alt="Stargazing activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">✳</span>
     <small>04</small>
     <h3>Stargazing</h3>
     <p>An evening under the stars.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -101,13 +101,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/surfskate.jpg" alt="Surf skate activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">〰</span>
     <small>05</small>
     <h3>Surf skate</h3>
     <p>Take the flow to land.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -117,13 +117,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/skate.jpg" alt="Skate activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">↝</span>
     <small>06</small>
     <h3>Skate</h3>
     <p>Find your rhythm on wheels.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -133,13 +133,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/four-by-four.jpg" alt="4×4 tour activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">⌁</span>
     <small>07</small>
     <h3>4×4 tour</h3>
     <p>Discover hidden gems.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -149,13 +149,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/kite.jpg" alt="Kite activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">↗</span>
     <small>08</small>
     <h3>Kite</h3>
     <p>Follow the wind.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -276,13 +276,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/surf.jpg" alt="Surf activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">≈</span>
     <small>01</small>
     <h3>Surf</h3>
     <p>Find your wave.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -292,13 +292,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/hikes.jpg" alt="Hikes activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">⌁</span>
     <small>02</small>
     <h3>Hikes</h3>
     <p>Explore on foot.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -308,13 +308,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/snorkeling.jpg" alt="Snorkeling activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">◌</span>
     <small>03</small>
     <h3>Snorkeling</h3>
     <p>A different kind of blue.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -324,13 +324,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/stargazing.jpg" alt="Stargazing activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">✳</span>
     <small>04</small>
     <h3>Stargazing</h3>
     <p>An evening under the stars.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -340,13 +340,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/surfskate.jpg" alt="Surf skate activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">〰</span>
     <small>05</small>
     <h3>Surf skate</h3>
     <p>Take the flow to land.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -356,13 +356,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/skate.jpg" alt="Skate activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">↝</span>
     <small>06</small>
     <h3>Skate</h3>
     <p>Find your rhythm on wheels.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -372,13 +372,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/four-by-four.jpg" alt="4×4 tour activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">⌁</span>
     <small>07</small>
     <h3>4×4 tour</h3>
     <p>Discover hidden gems.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
@@ -388,13 +388,13 @@ Error generating stack: `+o.message+`
     
       <img class="activity-photo" src="/static/studio/activities/kite.jpg" alt="Kite activity inspiration" width="900" height="600" loading="lazy" decoding="async">
     
-    
   </div>
   <div class="activity-card-copy">
     <span class="activity-icon" aria-hidden="true">↗</span>
     <small>08</small>
     <h3>Kite</h3>
     <p>Follow the wind.</p>
+    
     <span class="activity-arrow">↗</span>
   </div>
 </a>
