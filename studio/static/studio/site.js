@@ -13,6 +13,50 @@ window.initCrewSite = function () {
   listen(document,'click',e=>{if(!e.target.closest('header'))closeMenu();else if(!e.target.closest('.nav-group'))closeSubmenu();});
   nav?.querySelectorAll('a').forEach(a=>listen(a,'click',closeMenu));
 
+  const carouselTimers = [];
+  document.querySelectorAll('[data-carousel]').forEach(carousel => {
+    const slides = [...carousel.querySelectorAll('[data-slide]')];
+    const controls = carousel.querySelector('.carousel-controls');
+    if (slides.length < 2) return;
+    controls.hidden = false;
+    let index = 0, timer, hovering = false, focused = false;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let paused = motion.matches;
+    const autoplay = carousel.dataset.autoplay === 'true';
+    const pause = carousel.querySelector('[data-carousel-pause]');
+    const status = carousel.querySelector('[data-carousel-status]');
+    pause.hidden = !autoplay;
+    const show = (next, announce = true) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {slide.hidden = i !== index;});
+      status.setAttribute('aria-live', announce ? 'polite' : 'off');
+      status.textContent = `${index + 1} / ${slides.length}`;
+    };
+    const schedule = () => {
+      clearInterval(timer);
+      pause.textContent = paused ? 'Play slideshow' : 'Pause slideshow';
+      if (autoplay && !paused && !hovering && !focused && !document.hidden) {
+        timer = setInterval(() => show(index + 1, false), 5000);
+      }
+    };
+    const move = direction => {show(index + direction); schedule();};
+    listen(carousel.querySelector('[data-previous]'), 'click', () => move(-1));
+    listen(carousel.querySelector('[data-next]'), 'click', () => move(1));
+    listen(carousel, 'keydown', event => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault(); move(event.key === 'ArrowLeft' ? -1 : 1);
+    });
+    listen(pause, 'click', () => {paused = !paused; schedule();});
+    listen(carousel, 'mouseenter', () => {hovering = true; schedule();});
+    listen(carousel, 'mouseleave', () => {hovering = false; schedule();});
+    listen(carousel, 'focusin', () => {focused = true; schedule();});
+    listen(carousel, 'focusout', event => {focused = carousel.contains(event.relatedTarget); schedule();});
+    listen(document, 'visibilitychange', schedule);
+    listen(motion, 'change', () => {if(motion.matches) paused = true; schedule();});
+    carouselTimers.push(() => clearInterval(timer));
+    show(0, false); schedule();
+  });
+
   const preferenceKey='crew-external-media';
   let allowed=false;
   try{allowed=localStorage.getItem(preferenceKey)==='true';}catch{}
@@ -46,6 +90,6 @@ window.initCrewSite = function () {
     listen(dialog,'click',e=>{const choice=e.target.closest('[data-choice]')?.dataset.choice;if(!choice)return;if(choice!=='close')save(choice==='allow');dialog.close();dialog.remove();dialog=null;});
     dialog.showModal();
   });
-  return () => {controller.abort();dialog?.remove();};
+  return () => {controller.abort();carouselTimers.forEach(stop => stop());dialog?.remove();};
 };
 if(document.querySelector('header'))window.initCrewSite();

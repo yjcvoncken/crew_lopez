@@ -21,6 +21,7 @@ class Photos(SiteImage):
 
 
 class SiteSettings(models.Model):
+    villa_carousel_autoplay = models.BooleanField(default=True, help_text='Automatically rotate the Explore the Villa photos. Visitors can pause playback.')
     hero_title = models.CharField(max_length=160, default='Your people far from home')
     hero_description = models.TextField(default='Salty hair. Shared stories. A place to belong. Your next chapter starts in Lajares.')
     homepage_photo = models.FileField(upload_to='site/', blank=True, validators=[image_validator])
@@ -39,6 +40,7 @@ class SiteSettings(models.Model):
         return 'Website content & legal details'
 
 class Room(models.Model):
+    price = models.CharField(max_length=120, blank=True, help_text='For example: From €45 per person / night. Leave blank to hide.')
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     photo = models.FileField(upload_to='rooms/', blank=True, validators=[image_validator])
@@ -49,6 +51,7 @@ class Room(models.Model):
         return self.name
 
 class Activity(models.Model):
+    price = models.CharField(max_length=120, blank=True, help_text='For example: €60 per session, or Included. Leave blank to hide.')
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     icon = models.CharField(max_length=10, blank=True)
@@ -73,3 +76,28 @@ class BlogPost(models.Model):
         ordering = ['order', 'pk']
     def __str__(self):
         return self.title
+
+
+class VillaPhoto(models.Model):
+    image = models.FileField(upload_to='villa/', validators=[image_validator])
+    caption = models.CharField(max_length=200, blank=True, help_text='Description of the photo for accessibility.')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.caption or f'Villa photo {self.pk or "new"}'
+
+
+class RoomPhoto(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='gallery_photos')
+    image = models.FileField(upload_to='rooms/', validators=[image_validator])
+    caption = models.CharField(max_length=200, blank=True, help_text='Description of the photo for accessibility.')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.caption or f'{self.room} photo'

@@ -79,5 +79,18 @@ details{border-bottom:1px solid #bac8bc;padding:20px 0}summary{cursor:pointer;fo
  .ticker-slide{width:100%}
  .ticker-slide[aria-hidden=true]{display:none}
 }
-</style>  <script type="module" crossorigin src="/assets/index-BxPx5K-W.js"></script>
+
+/* Photo galleries keep the original image frames. */
+.photo-carousel{position:relative;overflow:hidden}
+.photo-carousel [data-slide][hidden],.carousel-controls[hidden],.carousel-controls button[hidden]{display:none!important}
+.inner-hero>.villa-carousel{height:470px;padding:0;align-self:stretch;border-radius:4px}
+.villa-carousel>[data-slide]{width:100%;height:100%;object-fit:cover}
+.carousel-controls{position:absolute;left:14px;right:14px;bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;z-index:2}
+.carousel-controls button,.carousel-controls span{border:0;border-radius:4px;background:var(--paper);color:var(--ink);padding:10px 13px;font-size:13px;box-shadow:0 2px 12px #0002}
+.carousel-controls button{min-width:44px;min-height:44px}
+.carousel-controls button:hover{background:var(--yellow)}
+.stay-image .stay-number{top:16px;bottom:auto}
+.stay-copy>p.item-price,.item-price{font-weight:700;color:var(--blue);margin-top:12px}
+@media(max-width:800px){.inner-hero>.villa-carousel{height:350px;padding:0}.carousel-controls{left:8px;right:8px;gap:6px}.carousel-controls button{padding:8px}}
+</style>  <script type="module" crossorigin src="/assets/index-CnUF5Uu5.js"></script>
 </head><body><div id="root"></div></body></html>

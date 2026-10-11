@@ -11,17 +11,20 @@
   <div class="room-grid stay-grid">
     {% for room in rooms %}
     <article class="stay-card" id="room-{{ forloop.counter }}">
-      <div class="stay-image">
-        {% if room.photo %}<img src="{{ room.photo.url }}" alt="{{ room.name }}" loading="lazy">
-        {% elif forloop.counter == 1 %}<img src="{% site_image 'studio/room-twin-illustration.png' %}" alt="Illustration of a coastal twin bedroom" loading="lazy">
-        {% elif forloop.counter == 2 %}<img src="{% site_image 'studio/room-shared-illustration.png' %}" alt="Illustration of a single bed and a bunk bed" loading="lazy">
-        {% else %}<img src="{% site_image 'studio/room-dorm-illustration.png' %}" alt="Illustration of a coastal bunk-bed dorm" loading="lazy">{% endif %}
+      <div class="stay-image photo-carousel" data-carousel data-autoplay="false" role="region" aria-roledescription="carousel" aria-label="{{ room.name }} photos" tabindex="0">
+        {% if room.photo %}<img data-slide src="{{ room.photo.url }}" alt="{{ room.name }}" loading="lazy">
+        {% elif forloop.counter == 1 %}<img data-slide src="{% site_image 'studio/room-twin-illustration.png' %}" alt="Illustration of a coastal twin bedroom" loading="lazy">
+        {% elif forloop.counter == 2 %}<img data-slide src="{% site_image 'studio/room-shared-illustration.png' %}" alt="Illustration of a single bed and a bunk bed" loading="lazy">
+        {% else %}<img data-slide src="{% site_image 'studio/room-dorm-illustration.png' %}" alt="Illustration of a coastal bunk-bed dorm" loading="lazy">{% endif %}
+        {% for photo in room.gallery_photos.all %}<img data-slide hidden src="{{ photo.image.url }}" alt="{{ photo.caption|default:room.name }}" loading="lazy">{% endfor %}
+        {% include 'studio/includes/carousel_controls.html' %}
         <span class="stay-number">0{{ forloop.counter }}</span>
       </div>
       <div class="stay-copy">
         <p class="eyebrow">{% if forloop.counter == 1 %}PRIVATE OR SHARED · UP TO 2{% elif forloop.counter == 2 %}SHARED · UP TO 3{% else %}SHARED · UP TO 6{% endif %}</p>
         <h2>{{ room.name }}</h2>
         <p>{{ room.description }}</p>
+        {% if room.price %}<p class="item-price">{{ room.price }}</p>{% endif %}
         <a class="button" href="{{ site.booking_url }}" target="_blank" rel="noopener">Check availability <span>↗</span></a>
       </div>
     </article>

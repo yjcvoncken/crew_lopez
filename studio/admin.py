@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.templatetags.static import static
 from django.utils.html import format_html
-from .models import SiteSettings, SiteImage, Room, Activity
+from .models import SiteSettings, SiteImage, Room, Activity, VillaPhoto, RoomPhoto
 from .image_widgets import ImageAdminForm
 from .photo_gallery import PhotoGalleryAdmin
 
@@ -24,22 +24,37 @@ class SiteImageAdmin(PhotoGalleryAdmin):
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
     form = ImageAdminForm
-    fieldsets = [('Homepage & assets', {'fields': ('hero_title', 'hero_description', 'homepage_photo', 'graphic_element', 'booking_url')}), ('Business & contact', {'fields': ('business_name', 'registration_number', 'business_address', 'contact_email', 'contact_phone')}), ('Policies', {'fields': ('policies_approved', 'privacy_text', 'cookie_text', 'terms_text')})]
+    fieldsets = [('Homepage & assets', {'fields': ('hero_title', 'hero_description', 'homepage_photo', 'graphic_element', 'booking_url', 'villa_carousel_autoplay')}), ('Business & contact', {'fields': ('business_name', 'registration_number', 'business_address', 'contact_email', 'contact_phone')}), ('Policies', {'fields': ('policies_approved', 'privacy_text', 'cookie_text', 'terms_text')})]
     def has_add_permission(self, request):
         return not SiteSettings.objects.exists()
     def has_delete_permission(self, request, obj=None):
         return False
 
+class RoomPhotoInline(admin.TabularInline):
+    model = RoomPhoto
+    form = ImageAdminForm
+    extra = 1
+    fields = ['image', 'caption', 'order']
+
+
+@admin.register(VillaPhoto)
+class VillaPhotoAdmin(admin.ModelAdmin):
+    form = ImageAdminForm
+    list_display = ['__str__', 'order']
+    list_editable = ['order']
+
+
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
+    inlines = [RoomPhotoInline]
     form = ImageAdminForm
-    list_display = ['name', 'order']
-    list_editable = ['order']
+    list_display = ['name', 'price', 'order']
+    list_editable = ['price', 'order']
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
     form = ImageAdminForm
-    list_display = ['name', 'order']
+    list_display = ['name', 'price', 'order']
     list_editable = ['order']
     prepopulated_fields = {'slug': ['name']}
 

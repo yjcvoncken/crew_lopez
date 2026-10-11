@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from .image_widgets import ImageAdminForm, CropImageWidget
-from .models import Photos, SiteImage, SiteSettings, Room, Activity
+from .models import Photos, SiteImage, SiteSettings, Room, Activity, VillaPhoto
 
 logger = logging.getLogger(__name__)
 
@@ -108,6 +108,8 @@ class PhotoGalleryAdmin(admin.ModelAdmin):
                         page = '/rooms/'
                         position = list(Room.objects.values_list('pk', flat=True)).index(record.pk) + 1
                         selector = f'#room-{position} .stay-image img'
+                    elif isinstance(record, VillaPhoto):
+                        page = '/villa/'
                     elif isinstance(record, Activity):
                         page = '/activities/'
                     elif isinstance(record, SiteSettings) and field == 'homepage_photo':

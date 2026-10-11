@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Room, Activity
+from .models import Room, Activity, VillaPhoto
 
 PAGES = {
     "villa": {"title":"Explore the Villa", "kicker":"Your island base", "intro":"A slow home for salty days.", "copy":"White walls, volcanic stone, shared tables and plenty of corners to disappear into. Crew Lopez is designed for the good rhythm: surf early, eat well, stretch out, repeat.", "items":[("The garden","Take your coffee outside and find a quiet corner."),("The kitchen","A generous shared kitchen and long table made for unhurried breakfasts and family dinners."),("The hangout","Soft seats, strong Wi-Fi, books, games and a place to plan tomorrow’s waves."),("The terrace","Fresh air, island light and somewhere to plan your next adventure.")]},
@@ -9,12 +9,12 @@ PAGES = {
 }
 
 def home(request):
-    return render(request, "studio/home.html", {"rooms": Room.objects.all(), "activities": Activity.objects.all()})
+    return render(request, "studio/home.html", {"rooms": Room.objects.prefetch_related('gallery_photos'), "activities": Activity.objects.all()})
 
 def detail(request, slug):
     page = PAGES[slug]
     template = {"villa": "studio/villa.html", "rooms": "studio/rooms.html", "activities": "studio/activities.html"}.get(slug, "studio/detail.html")
-    return render(request, template, {"page": page, "slug": slug, "rooms": Room.objects.all(), "activities": Activity.objects.all()})
+    return render(request, template, {"page": page, "slug": slug, "villa_photos": VillaPhoto.objects.all(), "rooms": Room.objects.prefetch_related('gallery_photos'), "activities": Activity.objects.all()})
 
 def contact(request):
     return render(request, "studio/contact.html")
