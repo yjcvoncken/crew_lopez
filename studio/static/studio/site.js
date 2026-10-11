@@ -19,7 +19,7 @@ window.initCrewSite = function () {
     const controls = carousel.querySelector('.carousel-controls');
     if (slides.length < 2) return;
     controls.hidden = carousel.dataset.hideControls === 'true';
-    let index = 0, timer, hovering = false, focused = false, requestVersion = 0;
+    let index = 0, timer, hovering = false, focused = false, requestVersion = 0, finishTransition;
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let paused = motion.matches;
     const autoplay = carousel.dataset.autoplay === 'true';
@@ -52,8 +52,29 @@ window.initCrewSite = function () {
       // Keep the current photo visible until the replacement is decoded.
       if (target !== index && !await prepare(target)) return;
       if (version !== requestVersion || controller.signal.aborted) return;
+      finishTransition?.();
+      const previous = index;
       index = target;
       slides.forEach((slide, i) => {slide.hidden = i !== index;});
+      if (autoplay && !announce && previous !== index && !motion.matches && slides[index].animate) {
+        const outgoing = slides[previous], incoming = slides[index];
+        outgoing.hidden = false;
+        carousel.classList.add('is-sliding');
+        const options = {duration: 550, easing: 'cubic-bezier(.22,.61,.36,1)', fill: 'both'};
+        const animations = [
+          outgoing.animate([{transform: 'translateX(0)'}, {transform: 'translateX(-100%)'}], options),
+          incoming.animate([{transform: 'translateX(100%)'}, {transform: 'translateX(0)'}], options),
+        ];
+        const finish = () => {
+          if (finishTransition !== finish) return;
+          finishTransition = undefined;
+          outgoing.hidden = true;
+          carousel.classList.remove('is-sliding');
+          animations.forEach(animation => animation.cancel());
+        };
+        finishTransition = finish;
+        Promise.allSettled(animations.map(animation => animation.finished)).then(finish);
+      }
       status.setAttribute('aria-live', announce ? 'polite' : 'off');
       status.textContent = `${index + 1} / ${slides.length}`;
       prepare(index + 1);
@@ -80,7 +101,7 @@ window.initCrewSite = function () {
     listen(carousel, 'focusout', event => {focused = carousel.contains(event.relatedTarget); schedule();});
     listen(document, 'visibilitychange', schedule);
     listen(motion, 'change', () => {if(motion.matches) paused = true; schedule();});
-    carouselTimers.push(() => clearInterval(timer));
+    carouselTimers.push(() => {clearInterval(timer); finishTransition?.();});
     show(0, false); schedule();
   });
 
