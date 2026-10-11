@@ -8,6 +8,8 @@ from django.core.files.base import ContentFile
 from django.contrib.staticfiles import finders
 from django.templatetags.static import static
 from django.utils.html import format_html
+from django.core.files.uploadedfile import UploadedFile
+from .image_optimization import optimize_image
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +55,16 @@ class ImageAdminForm(forms.ModelForm):
                 continue
             value = cleaned.get(name)
             crop = self.data.get(name + '_crop')
-            if value is False or not crop:
+            if value is False:
+                continue
+            if not crop:
+                if isinstance(value, UploadedFile):
+                    try:
+                        optimized = optimize_image(value)
+                        if optimized:
+                            cleaned[name] = optimized
+                    except (ValueError, OSError, Image.DecompressionBombError):
+                        self.add_error(name, 'Could not read this image. Choose a valid image file and try again.')
                 continue
             fallback = False
             opened = False
@@ -83,10 +94,10 @@ class ImageAdminForm(forms.ModelForm):
                     if box[2] <= box[0] or box[3] <= box[1]:
                         raise ValueError('Crop is too small')
                     image = image.crop(box)
-                    image.thumbnail((2400, 2400))
+                    image.thumbnail((1920, 1920), Image.Resampling.LANCZOS)
                     output = BytesIO()
-                    image.save(output, format='PNG')
-                cleaned[name] = ContentFile(output.getvalue(), name=value.name.rsplit('/', 1)[-1].rsplit('.', 1)[0] + '-crop.png')
+                    image.save(output, format='WEBP', quality=82, method=6)
+                cleaned[name] = ContentFile(output.getvalue(), name=value.name.rsplit('/', 1)[-1].rsplit('.', 1)[0] + '-crop-web.webp')
             except (BotoCoreError, ClientError):
                 logger.exception('Unable to read photo for cropping: %s', name)
                 self.add_error(name, 'The existing picture could not be read from storage. Upload a replacement or retry once the storage bucket connection is restored.')

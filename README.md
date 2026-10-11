@@ -36,7 +36,7 @@ In admin:
 Image fields include a preview and crop controls. Choose a file, drag the preview
 to position it, and use Zoom and Frame to crop. Save to apply the crop. You can
 also crop an already uploaded image without uploading it again. Cropping saves
-a new PNG and keeps the previous stored file. Reset crop saves the full selected
+a compressed WebP and keeps the previous stored file. Reset crop saves the full selected
 image instead. PNG, JPG, WebP and GIF can be cropped (animated images become a
 single frame); SVG artwork can be replaced but cannot be cropped. The website's
 existing containers and responsive layout keep their dimensions.
@@ -44,6 +44,12 @@ Use Homepage photo in Site settings for the main hero, Rooms for each room's
 photo, and Activities for each activity's photo. Site images controls their
 bundled fallback images. Admin changes update the live Django site immediately;
 the standalone frontend preview still requires a fresh export.
+
+New raster uploads and crops are compressed for the web (up to 1920px). SVG and
+uncropped animated GIF uploads are preserved. To speed up photos already in the
+production bucket, run `python manage.py optimize_images` in Railway’s website
+service shell after deployment. The command keeps old files and skips previously
+optimized photos on subsequent runs. Bundled site images use compact WebP copies.
 
 Owner-provided content is recorded in migration 0003: three rooms (up to 11 guests), eight activities, included breakfast/yoga/community/bikes, optional paid dinner, and the supplied Google Maps location link. Policies stay visibly marked as drafts until reviewed and approved in Site settings. Shared Drive assets have not been downloaded because the supplied folder requires sign-in. Upload the confirmed homepage image and brand artwork in Site settings once available.
 

@@ -91,6 +91,7 @@ if os.environ.get("AWS_STORAGE_BUCKET_NAME"):
             "default_acl": None,
             "querystring_auth": True,
             "file_overwrite": False,
+            "object_parameters": {"CacheControl": "private, max-age=86400"},
             "location": "media",
         },
     }

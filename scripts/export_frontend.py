@@ -28,7 +28,7 @@ for route in ['/', '/villa/', '/explore-villa/', '/rooms/', '/activities/', '/ab
 assets = ROOT / 'public/static/studio'
 assets.mkdir(parents=True, exist_ok=True)
 for file in (ROOT / 'studio/static/studio').iterdir():
-    if file.suffix in {'.png', '.css'} and file.name != 'studio-hero.png':
+    if file.suffix in {'.png', '.webp', '.css'} and file.name != 'studio-hero.png':
         shutil.copy2(file, assets / file.name)
 
 shutil.copytree(ROOT / 'studio/static/studio/activities', assets / 'activities', dirs_exist_ok=True)

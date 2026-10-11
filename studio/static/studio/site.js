@@ -37,7 +37,15 @@ window.initCrewSite = function () {
       }
       return prepared.get(slide);
     };
-    if (autoplay) slides.forEach((_, i) => prepare(i));
+    // Load one upcoming photo at a time so the first image has priority.
+    if (autoplay) {
+      (async () => {
+        await prepare(0);
+        for (let i = 1; i < slides.length && !controller.signal.aborted; i++) {
+          await prepare(i);
+        }
+      })();
+    }
     const show = async (next, announce = true) => {
       const target = (next + slides.length) % slides.length;
       const version = ++requestVersion;
@@ -49,7 +57,7 @@ window.initCrewSite = function () {
       status.setAttribute('aria-live', announce ? 'polite' : 'off');
       status.textContent = `${index + 1} / ${slides.length}`;
       prepare(index + 1);
-      prepare(index - 1);
+      if (!autoplay) prepare(index - 1);
     };
     const schedule = () => {
       clearInterval(timer);
