@@ -106,7 +106,9 @@ details{border-bottom:1px solid #bac8bc;padding:20px 0}summary{cursor:pointer;fo
 @media(max-width:480px){.activity-card-copy{padding:18px 16px}.activity-card-actions{gap:8px;padding-top:12px}}
 
 .villa-carousel .carousel-controls{inset:0;pointer-events:none;justify-content:space-between;padding:0 16px}
-.villa-carousel .carousel-controls button{pointer-events:auto;border-radius:50%;width:44px;height:44px;font-size:20px;box-shadow:0 2px 12px #0003}
+.villa-carousel .carousel-controls button{pointer-events:auto;display:flex;align-items:center;justify-content:center;border-radius:50%;width:44px;height:44px;padding:0;background:transparent;color:#fff;font-size:18px;opacity:.65;box-shadow:none;text-shadow:0 1px 4px #0009;transition:opacity .2s,background .2s}
+.villa-carousel .carousel-controls button:hover,.villa-carousel .carousel-controls button:focus-visible{opacity:1;background:#173b4440}
+.villa-carousel .carousel-controls button:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .villa-carousel .carousel-controls [hidden]{display:none!important}
 @media(max-width:480px){.villa-carousel .carousel-controls{padding:0 10px}}
 </style><link rel="icon" href="/static/studio/crew-lopez-logo.png">  <script type="module" crossorigin src="/assets/index-iav4QA1G.js"></script>
