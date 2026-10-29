@@ -25,8 +25,8 @@ window.initCrewSite = function () {
     const autoplay = carousel.dataset.autoplay === 'true';
     const pause = carousel.querySelector('[data-carousel-pause]');
     const status = carousel.querySelector('[data-carousel-status]');
-    status.hidden = carousel.dataset.sideControls === 'true';
-    pause.hidden = !autoplay || carousel.dataset.sideControls === 'true';
+    status.hidden = true;
+    pause.hidden = true;
     const prepared = new Map();
     const prepare = i => {
       const slide = slides[(i + slides.length) % slides.length];

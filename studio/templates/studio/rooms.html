@@ -11,7 +11,7 @@
   <div class="room-grid stay-grid">
     {% for room in rooms %}
     <article class="stay-card" id="room-{{ forloop.counter }}">
-      <div class="stay-image photo-carousel" data-carousel data-autoplay="false" role="region" aria-roledescription="carousel" aria-label="{{ room.name }} photos" tabindex="0">
+      <div class="stay-image photo-carousel" data-carousel data-autoplay="{{ site.villa_carousel_autoplay|yesno:'true,false' }}" role="region" aria-roledescription="carousel" aria-label="{{ room.name }} photos" tabindex="0">
         {% if room.photo %}<img data-slide src="{{ room.photo.url }}" alt="{{ room.name }}" loading="lazy">
         {% elif forloop.counter == 1 %}<img data-slide src="{% site_image 'studio/room-twin-illustration.png' %}" alt="Illustration of a coastal twin bedroom" loading="lazy">
         {% elif forloop.counter == 2 %}<img data-slide src="{% site_image 'studio/room-shared-illustration.png' %}" alt="Illustration of a single bed and a bunk bed" loading="lazy">
@@ -25,12 +25,12 @@
         <h2>{{ room.name }}</h2>
         <p>{{ room.description }}</p>
         {% if room.display_price %}<p class="item-price">{{ room.display_price }}</p>{% endif %}
-        <a class="button" href="{{ site.booking_url }}" target="_blank" rel="noopener">Check availability <span>↗</span></a>
+        <a class="button" href="{% url 'booking' %}" target="_blank" rel="noopener">Check availability <span>↗</span></a>
       </div>
     </article>
     {% endfor %}
   </div>
-  <p class="rooms-image-note">Room illustrations set the mood. Check your chosen accommodation on Booking.com for current photos and details.</p>
+  <p class="rooms-image-note">Room illustrations set the mood. Check your chosen accommodation on Amenitiz for current photos and details.</p>
 </section>
 <section class="section stay-included">
   <div><p class="eyebrow">MORE THAN A PLACE TO SLEEP</p><h2>A good start.<br>Every <em>day.</em></h2><p>A few simple things to help you settle into life with the crew.</p></div>
@@ -42,5 +42,5 @@
     <p class="stay-dinner">Dinner is an optional paid extra. Ask the crew about prices and availability.</p>
   </div>
 </section>
-<section class="final-cta"><p class="eyebrow">A GOOD NIGHT. A NEW ADVENTURE.</p><h2>Wake up with<br>the <em>crew.</em></h2><a class="button yellow" href="{{ site.booking_url }}" target="_blank" rel="noopener">Find your stay ↗</a></section>
+<section class="final-cta"><p class="eyebrow">A GOOD NIGHT. A NEW ADVENTURE.</p><h2>Wake up with<br>the <em>crew.</em></h2><a class="button yellow" href="{% url 'booking' %}" target="_blank" rel="noopener">Find your stay ↗</a></section>
 {% endblock %}

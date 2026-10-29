@@ -14,7 +14,7 @@ from django.test import Client
 client = Client(HTTP_HOST='localhost')
 pages = {}
 favicon = ""
-for route in ['/', '/villa/', '/explore-villa/', '/rooms/', '/activities/', '/about/', '/our-story/', '/contact/', '/cookie-policy/', '/privacy-policy/', '/terms-and-conditions/']:
+for route in ['/', '/book/', '/villa/', '/explore-villa/', '/rooms/', '/activities/', '/about/', '/our-story/', '/contact/', '/cookie-policy/', '/privacy-policy/', '/terms-and-conditions/']:
     response = client.get(route)
     assert response.status_code == 200, (route, response.status_code)
     html = response.content.decode()

@@ -35,15 +35,20 @@ class CarouselTests(TestCase):
         site.save()
         self.assertContains(self.client.get('/villa/'), 'data-autoplay="false"')
 
-    def test_room_gallery_is_manual_and_prices_are_visible(self):
+    def test_room_gallery_matches_villa_and_prices_are_visible(self):
         room = Room.objects.first()
         room.photo = 'rooms/main.png'
         room.price = 'From €45 per night'
         room.save()
         RoomPhoto.objects.create(room=room, image='rooms/extra.png', caption='Room terrace')
         response = self.client.get('/rooms/')
-        self.assertContains(response, 'data-autoplay="false"')
-        self.assertNotContains(response, 'data-autoplay="true"')
+        self.assertContains(response, 'data-autoplay="true"')
+        site = SiteSettings.objects.first()
+        site.villa_carousel_autoplay = False
+        site.save()
+        manual = self.client.get('/rooms/')
+        self.assertContains(manual, 'data-autoplay="false"')
+        self.assertNotContains(manual, 'data-autoplay="true"')
         self.assertContains(response, 'rooms/main.png')
         self.assertContains(response, 'rooms/extra.png')
         self.assertContains(response, 'Room terrace')

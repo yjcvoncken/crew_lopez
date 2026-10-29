@@ -1,0 +1,7 @@
+{% load site_images %}
+<section class="surf-booking" aria-label="Book your surfhouse stay">
+  <div class="surf-booking-intro"><img src="{% site_image 'studio/graphic-wave.png' %}" alt="" aria-hidden="true"><div><p class="eyebrow">YOUR NEXT SURF ESCAPE</p><h2>Saltwater days.<br><em>A place to stay.</em></h2></div></div>
+  <div class="surf-booking-detail"><span class="eyebrow">THE PLACE</span><p>Lajares, Fuerteventura</p></div>
+  <div class="surf-booking-detail"><span class="eyebrow">YOUR STAY</span><p>Choose dates & guests<br><small>Live availability on Amenitiz</small></p></div>
+  <a class="button" href="{% url 'booking' %}">Check availability <span aria-hidden="true">↗</span></a>
+</section>

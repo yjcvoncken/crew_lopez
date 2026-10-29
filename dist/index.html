@@ -105,13 +105,20 @@ details{border-bottom:1px solid #bac8bc;padding:20px 0}summary{cursor:pointer;fo
 .activity-card-actions .activity-arrow{padding:0;margin:0 0 0 auto;flex-shrink:0}
 @media(max-width:480px){.activity-card-copy{padding:18px 16px}.activity-card-actions{gap:8px;padding-top:12px}}
 
-.villa-carousel .carousel-controls{inset:0;pointer-events:none;justify-content:space-between;padding:0 16px}
-.villa-carousel .carousel-controls button{pointer-events:auto;display:flex;align-items:center;justify-content:center;border-radius:50%;width:44px;height:44px;padding:0;background:transparent;color:#fff;font-size:18px;opacity:.65;box-shadow:none;text-shadow:0 1px 4px #0009;transition:opacity .2s,background .2s}
-.villa-carousel .carousel-controls button:hover,.villa-carousel .carousel-controls button:focus-visible{opacity:1;background:#173b4440}
-.villa-carousel .carousel-controls button:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.villa-carousel .carousel-controls [hidden]{display:none!important}
-@media(max-width:480px){.villa-carousel .carousel-controls{padding:0 10px}}
+.photo-carousel .carousel-controls{inset:0;pointer-events:none;justify-content:space-between;padding:0 16px}
+.photo-carousel .carousel-controls button{pointer-events:auto;display:flex;align-items:center;justify-content:center;border-radius:50%;width:44px;height:44px;padding:0;background:transparent;color:#fff;font-size:18px;opacity:.65;box-shadow:none;text-shadow:0 1px 4px #0009;transition:opacity .2s,background .2s}
+.photo-carousel .carousel-controls button:hover,.photo-carousel .carousel-controls button:focus-visible{opacity:1;background:#173b4440}
+.photo-carousel .carousel-controls button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.photo-carousel .carousel-controls [hidden]{display:none!important}
+@media(max-width:480px){.photo-carousel .carousel-controls{padding:0 10px}}
 
 .photo-carousel.is-sliding>[data-slide]{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
-</style><link rel="icon" href="/static/studio/crew-lopez-logo.webp">  <script type="module" crossorigin src="/assets/index-B3WRsLWk.js"></script>
+
+/* A surfhouse take on the floating reservation panel. */
+.surf-booking{position:relative;z-index:2;display:grid;grid-template-columns:1.35fr 1fr 1fr auto;align-items:center;gap:28px;margin:-1px auto 0;padding:32px 36px;max-width:1280px;background:#fff;box-shadow:0 12px 32px #173b4410;border-bottom:4px solid var(--yellow)}
+.surf-booking-intro{display:flex;align-items:center;gap:18px}.surf-booking-intro img{width:64px;height:64px;object-fit:contain}.surf-booking .eyebrow{font-size:9px;letter-spacing:.12em}.surf-booking h2{font-size:26px;margin-top:9px}.surf-booking-detail{border-left:1px solid var(--line);padding-left:26px}.surf-booking-detail p{font-size:14px;margin-top:10px}.surf-booking-detail small{color:var(--muted);font-size:11px}.surf-booking .button{white-space:nowrap;font-size:12px;margin:0}.booking-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:36px 5%}.booking-heading h1{font-size:40px;margin-top:12px}.booking-heading .text-link{font-size:12px}.booking-frame{display:block;width:100%;height: max(760px, 85vh);border:0;background:#fff}
+@media(min-width:1101px){.surf-booking{margin:-24px auto 24px;width:90%}}
+@media(max-width:1100px){.surf-booking{grid-template-columns:1fr 1fr;margin:0 24px 24px}.surf-booking-detail{border-left:0;padding-left:0}.surf-booking .button{justify-content:center}}
+@media(max-width:600px){.surf-booking{margin:0 12px 20px;padding:26px 22px;gap:24px 16px}.surf-booking-intro{grid-column:1/-1}.surf-booking .button{grid-column:1/-1}.surf-booking h2{font-size:28px}.surf-booking-detail p{font-size:12px}.booking-heading{align-items:flex-start;flex-direction:column;padding:28px 7%}.booking-heading h1{font-size:34px}}
+</style><link rel="icon" href="/static/studio/crew-lopez-logo.webp">  <script type="module" crossorigin src="/assets/index-BInPon7w.js"></script>
 </head><body><div id="root"></div></body></html>
