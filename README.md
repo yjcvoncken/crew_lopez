@@ -134,3 +134,20 @@ the database contains filenames, while the bucket contains the actual images.
 The Vite snapshot does not read production admin changes; production must run
 Django. Exported signed bucket URLs can expire, so do not host an export as a
 replacement for the live admin-backed website.
+
+## Edit page text
+
+In `/admin/`, open **Page text**, choose a page, edit its labelled text blocks,
+and Save. Headings, paragraphs, button labels and shared header/footer copy
+are editable without HTML. New lines become line breaks; an empty block hides
+that text. The original emphasis and formatting remain while text is unchanged.
+The About page also includes its introduction and individual story sections.
+Homepage hero title/description remain in **Site settings**; room and activity
+content remain in **Rooms** and **Activities**; policy overrides remain in
+**Site settings → Policies**. Images remain in **Site images**.
+
+Edits appear immediately on the live Django site. The standalone Vite preview
+requires a fresh export. Deployment applies migrations 0011 and 0012 to create
+and seed the page controls, without replacing existing photos or content.
+Staff editors need View/Change permissions for both Page text and Content text
+to edit the page and its inline blocks. Superusers have these permissions.

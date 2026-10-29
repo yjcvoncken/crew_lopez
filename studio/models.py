@@ -118,3 +118,31 @@ class RoomPhoto(models.Model):
 
     def __str__(self):
         return self.caption or f'{self.room} photo'
+
+
+class ContentPage(models.Model):
+    key = models.SlugField(unique=True)
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'page text'
+        verbose_name_plural = 'Page text'
+
+    def __str__(self):
+        return self.name
+
+
+class ContentText(models.Model):
+    page = models.ForeignKey(ContentPage, on_delete=models.CASCADE, related_name='texts')
+    key = models.CharField(max_length=100, unique=True)
+    label = models.CharField(max_length=180)
+    text = models.TextField(blank=True, help_text='Plain text. Line breaks are displayed on the page. Clear to hide this text.')
+    default_text = models.TextField(blank=True, editable=False)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'pk']
+
+    def __str__(self):
+        return self.label

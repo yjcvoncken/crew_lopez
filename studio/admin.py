@@ -60,3 +60,37 @@ class ActivityAdmin(admin.ModelAdmin):
 
 admin.site.site_header = 'Crew Lopez - Website admin'
 admin.site.site_title = 'Crew Lopez'
+
+
+from .models import ContentPage, ContentText
+from django import forms
+from django.db import models
+
+
+class ContentTextInline(admin.StackedInline):
+    model = ContentText
+    extra = 0
+    fields = ['label', 'text']
+    readonly_fields = ['label']
+    formfield_overrides = {models.TextField: {'widget': forms.Textarea(attrs={'rows': 3, 'cols': 90})}}
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(ContentPage)
+class ContentPageAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    search_fields = ['name', 'texts__text', 'texts__label']
+    readonly_fields = ['name']
+    fields = ['name']
+    inlines = [ContentTextInline]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

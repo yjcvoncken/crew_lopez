@@ -1,11 +1,11 @@
-{% extends 'studio/base.html' %}{% load site_images %}
+{% extends 'studio/base.html' %}{% load page_text %}{% load site_images %}
 {% load static %}
 {% block title %}The Rooms - Crew Lopez{% endblock %}
 {% block content %}
 <section class="section rooms-intro">
-  <p class="eyebrow">YOUR PLACE IN THE HOUSE</p>
-  <h1>Rest easy.<br>Stay <em>connected.</em></h1>
-  <p>Come solo or bring someone along. Three rooms, a slower island rhythm, and a crew to share it with.</p>
+  <p class="eyebrow">{% editable_text "rooms.001" %}YOUR PLACE IN THE HOUSE{% endeditable_text %}</p>
+  <h1>{% editable_text "rooms.002" %}Rest easy.<br>Stay <em>connected.</em>{% endeditable_text %}</h1>
+  <p>{% editable_text "rooms.003" %}Come solo or bring someone along. Three rooms, a slower island rhythm, and a crew to share it with.{% endeditable_text %}</p>
 </section>
 <section class="section rooms-collection">
   <div class="room-grid stay-grid">
@@ -21,26 +21,26 @@
         <span class="stay-number">0{{ forloop.counter }}</span>
       </div>
       <div class="stay-copy">
-        <p class="eyebrow">{% if forloop.counter == 1 %}PRIVATE OR SHARED · UP TO 2{% elif forloop.counter == 2 %}SHARED · UP TO 3{% else %}SHARED · UP TO 6{% endif %}</p>
+        <p class="eyebrow">{% if forloop.counter == 1 %}{% editable_text "rooms.capacity_two" %}PRIVATE OR SHARED · UP TO 2{% endeditable_text %}{% elif forloop.counter == 2 %}{% editable_text "rooms.capacity_three" %}SHARED · UP TO 3{% endeditable_text %}{% else %}{% editable_text "rooms.capacity_six" %}SHARED · UP TO 6{% endeditable_text %}{% endif %}</p>
         <h2>{{ room.name }}</h2>
         <p>{{ room.description }}</p>
         {% if room.display_price %}<p class="item-price">{{ room.display_price }}</p>{% endif %}
-        <a class="button" href="{% url 'booking' %}" target="_blank" rel="noopener">Check availability <span>↗</span></a>
+        <a class="button" href="{% url 'booking' %}" target="_blank" rel="noopener">{% editable_text "rooms.004" %}Check availability <span>↗</span>{% endeditable_text %}</a>
       </div>
     </article>
     {% endfor %}
   </div>
-  <p class="rooms-image-note">Room illustrations set the mood. Check your chosen accommodation on Amenitiz for current photos and details.</p>
+  <p class="rooms-image-note">{% editable_text "rooms.005" %}Room illustrations set the mood. Check your chosen accommodation on Amenitiz for current photos and details.{% endeditable_text %}</p>
 </section>
 <section class="section stay-included">
-  <div><p class="eyebrow">MORE THAN A PLACE TO SLEEP</p><h2>A good start.<br>Every <em>day.</em></h2><p>A few simple things to help you settle into life with the crew.</p></div>
+  <div><p class="eyebrow">{% editable_text "rooms.006" %}MORE THAN A PLACE TO SLEEP{% endeditable_text %}</p><h2>{% editable_text "rooms.007" %}A good start.<br>Every <em>day.</em>{% endeditable_text %}</h2><p>{% editable_text "rooms.008" %}A few simple things to help you settle into life with the crew.{% endeditable_text %}</p></div>
   <div class="stay-perks">
-    <article><span aria-hidden="true">☼</span><h3>Breakfast</h3><p>Included in your stay.</p></article>
-    <article><span aria-hidden="true">〰</span><h3>Yoga</h3><p>Time to stretch and reset.</p></article>
-    <article><span aria-hidden="true">✳</span><h3>Community</h3><p>Good company, shared days.</p></article>
-    <article><span aria-hidden="true">↝</span><h3>Bikes</h3><p>Available for you to use.</p></article>
-    <p class="stay-dinner">Dinner is an optional paid extra. Ask the crew about prices and availability.</p>
+    <article><span aria-hidden="true">☼</span><h3>{% editable_text "rooms.009" %}Breakfast{% endeditable_text %}</h3><p>{% editable_text "rooms.010" %}Included in your stay.{% endeditable_text %}</p></article>
+    <article><span aria-hidden="true">〰</span><h3>{% editable_text "rooms.011" %}Yoga{% endeditable_text %}</h3><p>{% editable_text "rooms.012" %}Time to stretch and reset.{% endeditable_text %}</p></article>
+    <article><span aria-hidden="true">✳</span><h3>{% editable_text "rooms.013" %}Community{% endeditable_text %}</h3><p>{% editable_text "rooms.014" %}Good company, shared days.{% endeditable_text %}</p></article>
+    <article><span aria-hidden="true">↝</span><h3>{% editable_text "rooms.015" %}Bikes{% endeditable_text %}</h3><p>{% editable_text "rooms.016" %}Available for you to use.{% endeditable_text %}</p></article>
+    <p class="stay-dinner">{% editable_text "rooms.017" %}Dinner is an optional paid extra. Ask the crew about prices and availability.{% endeditable_text %}</p>
   </div>
 </section>
-<section class="final-cta"><p class="eyebrow">A GOOD NIGHT. A NEW ADVENTURE.</p><h2>Wake up with<br>the <em>crew.</em></h2><a class="button yellow" href="{% url 'booking' %}" target="_blank" rel="noopener">Find your stay ↗</a></section>
+<section class="final-cta"><p class="eyebrow">{% editable_text "rooms.018" %}A GOOD NIGHT. A NEW ADVENTURE.{% endeditable_text %}</p><h2>{% editable_text "rooms.019" %}Wake up with<br>the <em>crew.</em>{% endeditable_text %}</h2><a class="button yellow" href="{% url 'booking' %}" target="_blank" rel="noopener">{% editable_text "rooms.020" %}Find your stay ↗{% endeditable_text %}</a></section>
 {% endblock %}

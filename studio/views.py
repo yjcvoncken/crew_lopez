@@ -12,7 +12,16 @@ def home(request):
     return render(request, "studio/home.html", {"rooms": Room.objects.prefetch_related('gallery_photos'), "activities": Activity.objects.all()})
 
 def detail(request, slug):
-    page = PAGES[slug]
+    page = PAGES[slug].copy()
+    if slug == 'story':
+        text = request_page_text(request)
+        for field in ['title', 'kicker', 'intro', 'copy']:
+            item = text.get('about.' + field)
+            if item is not None:
+                page[field] = item['text']
+        page['items'] = [tuple(text.get(f'about.item{index}.{part}', {'text': value})['text']
+                               for part, value in zip(['title', 'copy'], values))
+                         for index, values in enumerate(page['items'])]
     template = {"villa": "studio/villa.html", "rooms": "studio/rooms.html", "activities": "studio/activities.html"}.get(slug, "studio/detail.html")
     return render(request, template, {"page": page, "slug": slug, "villa_photos": VillaPhoto.objects.all(), "rooms": Room.objects.prefetch_related('gallery_photos'), "activities": Activity.objects.all()})
 
@@ -26,3 +35,8 @@ def policy(request, kind):
 
 def booking(request):
     return render(request, "studio/booking.html")
+
+
+def request_page_text(request):
+    from .context_processors import page_text_content
+    return page_text_content(request)
