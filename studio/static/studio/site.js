@@ -13,6 +13,45 @@ window.initCrewSite = function () {
   listen(document,'click',e=>{if(!e.target.closest('header'))closeMenu();else if(!e.target.closest('.nav-group'))closeSubmenu();});
   nav?.querySelectorAll('a').forEach(a=>listen(a,'click',closeMenu));
 
+  document.querySelectorAll('[data-booking-search]').forEach(form => {
+    const arrival = form.elements.start_date;
+    const departure = form.elements.end_date;
+    const dateValue = date => `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+    const nextDay = value => {const date = new Date(`${value}T12:00:00`);date.setDate(date.getDate()+1);return dateValue(date);};
+    const today = dateValue(new Date());
+    arrival.min = today;
+    arrival.value = today;
+    departure.value = nextDay(nextDay(today));
+    const updateDisplay = input => {
+      const label = input.parentElement.querySelector('.booking-date-display');
+      if (label && input.value) {const date = new Date(`${input.value}T12:00:00`);label.textContent = `${date.getDate()} / ${date.toLocaleDateString('en-GB', {month:'long'})}`;}
+    };
+    form.classList.add('booking-ready');
+    const syncDates = () => {
+      if (!arrival.value) return;
+      departure.min = nextDay(arrival.value);
+      if (!departure.value || departure.value <= arrival.value) departure.value = departure.min;
+      departure.setCustomValidity('');
+      updateDisplay(arrival);
+      updateDisplay(departure);
+    };
+    listen(arrival, 'change', syncDates);
+    listen(departure, 'change', () => {departure.setCustomValidity(departure.value <= arrival.value ? 'Check-out must be after check-in.' : '');updateDisplay(departure);});
+    syncDates();
+  });
+  const bookingFrame = document.querySelector('.booking-frame');
+  if (bookingFrame) {
+    const selected = new URLSearchParams(window.location.search);
+    const url = new URL(bookingFrame.src);
+    for (const key of ['start_date','end_date','adults']) {
+      const value = selected.get(key);
+      if (value && (key === 'adults' ? /^(?:[1-9]|10|11)$/.test(value) : /^\d{4}-\d{2}-\d{2}$/.test(value))) url.searchParams.set(key, value);
+    }
+    if (url.href !== bookingFrame.src) bookingFrame.src = url.href;
+    const direct = document.querySelector('.booking-heading .text-link');
+    if (direct) direct.href = url.href;
+  }
+
   const carouselTimers = [];
   document.querySelectorAll('[data-carousel]').forEach(carousel => {
     const slides = [...carousel.querySelectorAll('[data-slide]')];

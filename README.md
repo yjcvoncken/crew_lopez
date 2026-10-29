@@ -114,3 +114,23 @@ npm run preview
 ```
 
 Both versions include the core styles directly in the page. The npm dev/build scripts automatically sync stylesheet changes. Optional Google Maps content loads after the visitor enables it; the footer preference control can disable it again. No analytics or advertising scripts are included.
+
+## Diagnose missing admin photos
+
+Run `python manage.py check_image_storage` in the running Railway website service
+shell, using its production variables. This read-only check reports missing,
+empty and unreadable uploads by record, without printing credentials or signed
+URLs. A successful check verifies application storage reads, not browser access.
+If it finds zero references despite previous uploads, confirm the production
+`DATABASE_URL` points to the original database. Missing objects require checking
+the original bucket and backups; unreadable objects require checking bucket
+credentials and permissions. Do not clear image fields or run migrations to try
+to recover missing photos.
+
+For a save verification, upload one photo in admin, reload the admin page and
+its public page, then repeat after a deployment. Production needs both the
+persistent Postgres database and the original storage bucket. Back up both:
+the database contains filenames, while the bucket contains the actual images.
+The Vite snapshot does not read production admin changes; production must run
+Django. Exported signed bucket URLs can expire, so do not host an export as a
+replacement for the live admin-backed website.

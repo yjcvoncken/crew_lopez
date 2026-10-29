@@ -1,7 +1,6 @@
-{% load site_images %}
-<section class="surf-booking" aria-label="Book your surfhouse stay">
-  <div class="surf-booking-intro"><img src="{% site_image 'studio/graphic-wave.png' %}" alt="" aria-hidden="true"><div><p class="eyebrow">YOUR NEXT SURF ESCAPE</p><h2>Saltwater days.<br><em>A place to stay.</em></h2></div></div>
-  <div class="surf-booking-detail"><span class="eyebrow">THE PLACE</span><p>Lajares, Fuerteventura</p></div>
-  <div class="surf-booking-detail"><span class="eyebrow">YOUR STAY</span><p>Choose dates & guests<br><small>Live availability on Amenitiz</small></p></div>
-  <a class="button" href="{% url 'booking' %}">Check availability <span aria-hidden="true">↗</span></a>
-</section>
+<form class="surf-booking" action="{% url 'booking' %}" method="get" aria-label="Search your stay" data-booking-search>
+  <label class="booking-field"><span>Check-in</span><span class="booking-control"><input type="date" name="start_date" aria-label="Check-in" required><span class="booking-date-display" aria-hidden="true">Choose date</span><span class="booking-chevron" aria-hidden="true"></span></span></label>
+  <label class="booking-field"><span>Check-out</span><span class="booking-control"><input type="date" name="end_date" aria-label="Check-out" required><span class="booking-date-display" aria-hidden="true">Choose date</span><span class="booking-chevron" aria-hidden="true"></span></span></label>
+  <label class="booking-field booking-adults"><span>Adults</span><span class="booking-control"><select name="adults" aria-label="Adults">{% for count in '123456789' %}<option value="{{ count }}"{% if count == '2' %} selected{% endif %}>{{ count }}</option>{% endfor %}<option value="10">10</option><option value="11">11</option></select><span class="booking-chevron" aria-hidden="true"></span></span></label>
+  <div class="booking-search-action"><button type="submit">Search</button></div>
+</form>
